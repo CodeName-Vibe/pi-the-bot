@@ -1,0 +1,221 @@
+{
+  "keyboard": {
+    "branch": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "CPC", "callback_data": "CPC"},{"text": "DSP", "callback_data": "DSP"}]
+        ]
+      }
+    },
+    "trafficDSP": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "0.10$", "callback_data": "10"},{"text": "0.15$", "callback_data": "15"},{"text": "0.20$", "callback_data": "20"},{"text": "0.25$", "callback_data": "25"}],
+          [{"text": "0.30$", "callback_data": "30"},{"text": "0.35$", "callback_data": "35"},{"text": "0.40$", "callback_data": "40"},{"text": "0.45$", "callback_data": "45"}],
+          [{"text": "0.50$", "callback_data": "50"},{"text": "0.55$", "callback_data": "55"},{"text": "0.60$", "callback_data": "60"},{"text": "0.65$", "callback_data": "65"}],
+          [{"text": "0.70$", "callback_data": "70"},{"text": "0.75$", "callback_data": "75"},{"text": "0.80$", "callback_data": "80"},{"text": "Auto", "callback_data": "Auto"}]
+        ]
+      }
+    },
+    "trafficCPC": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "Revcontent", "callback_data": "Revcontent"}],
+          [{"text": "Mgid", "callback_data": "Mgid"}],
+          [{"text": "Outbrain", "callback_data": "Outbrain"}],
+          [{"text": "Taboola", "callback_data": "Taboola"}]
+        ]
+      }
+    },
+    "team": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "VladMgidDSP", "callback_data": "VladMgidDSP"}],
+          [{"text": "StapMgidDSP", "callback_data": "StapMgidDSP"}],
+          [{"text": "MgidDSP", "callback_data": "MgidDSP"}]
+        ]
+      }
+    },
+    "changeDSP": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "Change Tonik ID", "callback_data": "1"}],
+          [{"text": "Change Branch", "callback_data": "2"}],
+          [{"text": "Change Campaign Text", "callback_data": "3"}],
+          [{"text": "Change Team", "callback_data": "4"}],
+          [{"text": "Change Traffic Source", "callback_data": "5"}],
+          [{"text": "Ok", "callback_data": "7"}]
+        ]
+      }
+    },
+    "changeCPC": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "Change Tonik ID", "callback_data": "1"}],
+          [{"text": "Change Branch", "callback_data": "2"}],
+          [{"text": "Change Traffic Source", "callback_data": "5"}],
+          [{"text": "Ok", "callback_data": "7"}]
+        ]
+      }
+    }
+  },
+  "APIUrl":"http://localhost:3000",
+  "content": {
+    "getReport": "*Report bug if you found one:*\nTelegram - @V5669626573",
+    "getInstruction": [
+      "*Step 1*\nEnter */create* to start creation of *Peerclick Link*",
+      "*Step 2*\nEnter *Tonik ID*. It's *6-7 digit number* infront of *Tonik Campaign Name*\n_For example:\nin [1234567 - woody - Cremation-US] Tonik ID is [1234567]_",
+      "*Step 3*\nChoose *Branch*: *CPC or DSP*\n_More about branches you can learn from your HR_",
+      "*Step 4*\nEnter *Campaign Text*",
+      "*Step 5*\nThen choose *Team*\n_If you chose *CPC* - you will skip steps 4-5_",
+      "*Step 6*\nChoose *Traffic Source*:\nIf you chose *DSP* - choose *Traffic Source* closest to *Tonik's CPC*\nIf you chose *CPC* - choose *Traffic Source* you are working with: *Revcontent, Mgid, Outbrain or Taboola*",
+      "*Step 7*\nReinsure that all info you provided is correct\nIf something is wrong - choose the button with info you want to change\nIf everything is correct - choose the button with *Ok* on it",
+      "Then after 1-2 minutes I will provide you with freshly created *Peerclick Link*. You can repeat this cycle for eternity\n_P.S. If you started Peerclick Link creation - it was reseted_"
+    ],
+    "getTonikID": "1. Please Enter *Tonik Campaign ID*\n(it must be *6-7 digit number*)\n_example: 1234567_",
+    "getBranch": "2. Please Choose Branch:",
+    "getCampaignText": "3. Please Enter <b>Campaign Text</b>\n<i>example: That's How Psoriasis Treatment Works</i>",
+    "getTeam": "4. Please Choose Team:",
+    "getTrafficDSP": "5. Please Choose Traffic Source:",
+    "getTrafficCPC": "3. Please Choose Traffic Source:",
+    "getChanges": ". Please check if information you provided *is correct*:",
+    "chooseChanges": "Select one:",
+    "responceInputDone": "Now let me do my magic\nIt can take up to minute.",
+    "errorNotString": "*Error:* wrong text type.",
+    "errorNotActive": "Hello, I am *π the PeerClick bot*. I will help you in creation of *Peerclick link*\nEnter */create* to start link creation\nor\nEnter */help* for instruction",
+    "errorIDLenght": "*Error:* Tonik ID must be *6-7 digit* number",
+    "errorIDNotNumber": "*Error:* Tonik ID must be *number*",
+    "errorIDNotFound": "*Error:* There is no such Tonik ID. Make sure you've typed it correctly",
+    "errorSelectBranch": "You don't need to type anything\nJust choose Branch from below:",
+    "errorCampaignTextLenght": "*Error:* Your *Campaign Text* is more than 65 characters long",
+    "errorSelectTeam": "You don't need to type anything\nJust choose Team from below:",
+    "errorSelectTraffic": "You don't need to type anything\nJust choose Traffic Source from below:",
+    "errorSelectChange": "You don't need to type anything\nJust choose option from below:",
+    "errorNotStarted": "*Error:* You haven't started bot. Enter /start to begin.",
+    "errorForbiddenWords": "*Error:* You have *Forbidden Word*: ",
+    "responcePostback": "Postback url was set correctly",
+    "responcePixel": "Pixel was set correctly",
+    "errorPostback": "*Error:* Postback url was set incorrectly",
+    "errorPixel": "*Error:* Pixel was set incorrectly"
+  },
+  "forbiddenWords": {
+    "Affordable": "Affordable",
+    "Angriest": "Angriest",
+    "Best": "Best",
+    "Biggest": "Biggest",
+    "Brightest": "Brightest",
+    "Broadest": "Broadest",
+    "Busiest": "Busiest",
+    "Calmest": "Calmest",
+    "Cheapest": "Cheapest",
+    "Cleanest": "Cleanest",
+    "Closest": "Closest",
+    "Compare": "Compare",
+    "Corona": "Corona",
+    "Deadliest": "Deadliest",
+    "Deal": "Deal",
+    "Deals": "Deals",
+    "Easiest": "Easiest",
+    "Fastest": "Fastest",
+    "Fewest": "Fewest",
+    "Finest": "Finest",
+    "Free": "Free",
+    "Greatest": "Greatest",
+    "Healthiest": "Healthiest",
+    "Heaviest": "Heaviest",
+    "Highest": "Highest",
+    "Latest": "Latest",
+    "Local": "Local",
+    "Lowest": "Lowest",
+    "Medicaid": "Medicaid",
+    "Medicare": "Medicare",
+    "Monkeypox": "Monkeypox",
+    "Nastiest": "Nastiest",
+    "Newest": "Newest",
+    "NHS": "NHS",
+    "Nicest": "Nicest",
+    "Poorest": "Poorest",
+    "Quickest": "Quickest",
+    "Rarest": "Rarest",
+    "Richest": "Richest",
+    "Roomiest": "Roomiest",
+    "Roughest": "Roughest",
+    "Safest": "Safest",
+    "Save": "Save",
+    "Shortest": "Shortest",
+    "Simplest": "Simplest",
+    "Slimmest": "Slimmest",
+    "Slowest": "Slowest",
+    "Smallest": "Smallest",
+    "Smartest": "Smartest",
+    "Strangest": "Strangest",
+    "Tallest": "Tallest",
+    "Thinnest": "Thinnest",
+    "Tiniest": "Tiniest",
+    "Top": "Top",
+    "Toughest": "Toughest",
+    "Weakest": "Weakest",
+    "Worst": "Worst",
+    "Youngest": "Youngest",
+    "affordable": "affordable",
+    "angriest": "angriest",
+    "best": "best",
+    "biggest": "biggest",
+    "brightest": "brightest",
+    "broadest": "broadest",
+    "busiest": "busiest",
+    "calmest": "calmest",
+    "cheapest": "cheapest",
+    "cleanest": "cleanest",
+    "closest": "closest",
+    "compare": "compare",
+    "corona": "corona",
+    "covid": "covid",
+    "deadliest": "deadliest",
+    "deal": "deal",
+    "deals": "deals",
+    "easiest": "easiest",
+    "fastest": "fastest",
+    "fewest": "fewest",
+    "finest": "finest",
+    "free": "free",
+    "greatest": "greatest",
+    "healthiest": "healthiest",
+    "heaviest": "heaviest",
+    "highest": "highest",
+    "inexpensive": "inexpensive",
+    "largest": "largest",
+    "latest": "latest",
+    "local": "local",
+    "lowest": "lowest",
+    "medicaid": "medicaid",
+    "medicare": "medicare",
+    "monkeypox": "monkeypox",
+    "nastiest": "nastiest",
+    "newest": "newest",
+    "nhs": "nhs",
+    "poorest": "poorest",
+    "quickest": "quickest",
+    "rarest": "rarest",
+    "richest": "richest",
+    "roomiest": "roomiest",
+    "roughest": "roughest",
+    "safest": "safest",
+    "save": "save",
+    "shortest": "shortest",
+    "simplest": "simplest",
+    "slimmest": "slimmest",
+    "slowest": "slowest",
+    "smallest": "smallest",
+    "smartest": "smartest",
+    "strangest": "strangest",
+    "tallest": "tallest",
+    "thinnest": "thinnest",
+    "tiniest": "tiniest",
+    "top": "top",
+    "toughest": "toughest",
+    "weakest": "weakest",
+    "worst": "worst",
+    "youngest": "youngest"
+  }
+}
