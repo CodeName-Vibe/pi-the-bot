@@ -15,8 +15,8 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-// const token = '7106816891:AAHc5MKlu10ph-rrKL27n1_QXp0UVbaH0oI'; // build
-const token = '6640526394:AAG91IJQZL-wdJWDiVVsI2ygl5YybEFphME'; // test
+const token = '7106816891:AAHc5MKlu10ph-rrKL27n1_QXp0UVbaH0oI'; // build
+// const token = '6640526394:AAG91IJQZL-wdJWDiVVsI2ygl5YybEFphME'; // test
 
 const bot = new TelegramBot(token, {polling: true});
 const botManager = new BotManager(bot);
