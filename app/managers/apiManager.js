@@ -38,7 +38,7 @@ class ApiManager{
           trafficSource: ts,
           tonicId:tonicId
         }
-        let createLink = await axios.post(staticData.APIUrl+'/ApiManager/create-link',data).catch(err=>{console.log(err)})
+        let createLink = await axios.post(staticData.APIUrl+PORT+'/ApiManager/create-link',data).catch(err=>{console.log(err)})
         return createLink.data
       } else if (branch == "DSP") {
         let ts = "";
@@ -57,7 +57,7 @@ class ApiManager{
           campaignText: campaignText,
           tonicId:tonicId
         }
-        let createLink = await axios.post(staticData.APIUrl+'/ApiManager/create-link-dsp',data).catch(err=>{console.log(err)})
+        let createLink = await axios.post(staticData.APIUrl+PORT+'/ApiManager/create-link-dsp',data).catch(err=>{console.log(err)})
         return createLink.data
       }
       // return "peerclick-link-for-test"
