@@ -59,7 +59,7 @@
       }
     }
   },
-  "APIUrl":"http://localhost:3000",
+  "APIUrl":"http://0.0.0.0:",
   "content": {
     "getReport": "*Report bug if you found one:*\nTelegram - @V5669626573",
     "getInstruction": [

@@ -2,13 +2,14 @@ const staticData = require('../staticData.json')
 const userManager = require('./userManager')
 const axios = require('axios')
 
+const PORT = process.env.PORT || 3000;
 
 class ApiManager{
   constructor() {
     console.log('Api Manager connected!')
 
     this.getTonikInfo = async function(id, tonikId) {
-      let tonikInfo = await axios.post(staticData.APIUrl+'/ApiManager/get-tonik-info',{tonikIDd:tonikId}).catch(err=>{console.log(err)})
+      let tonikInfo = await axios.post(staticData.APIUrl+PORT+'/ApiManager/get-tonik-info',{tonikIDd:tonikId}).catch(err=>{console.log(err)})
       if(tonikInfo.data.ok) {
         userManager.setAPI(id, tonikId, tonikInfo.data.offerName, tonikInfo.data.geo, tonikInfo.data.tonikLink);
         return true
