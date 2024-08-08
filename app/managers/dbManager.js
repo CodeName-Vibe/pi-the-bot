@@ -66,7 +66,7 @@ class dbManager {
         break;
       case 'TABOOLA':
         ts = 56
-        tail = '?subid1={token5}&subid2={token1}&subid3={token6}&site={site}&siteid={token2}&adtitle={token3}&subid4={clickid}&network=taboola'
+        tail = '?subid1={token5}&subid2={token1}&subid3={token6}&site={token1}&siteid={token2}&adtitle={token3}&subid4={clickid}&network=taboola'
         break;
     }
     if(tail=='no_tail('){
