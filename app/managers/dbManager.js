@@ -419,7 +419,7 @@ class dbManager {
     }, { headers: { 'Content-Type': 'application/json' } });
     let call = {
       campaign_id: data.tonicId,
-      type: "preestimated_revenue",
+      type: "click",
       url: "http://pstb.gopeerclick.com/postback?userid=43738&cid={subid4}&status={event}&payout={revenue}&currency={currency}&status=approved&keyword={keyword}"
     }
     const tonicInfoResponse = await axios.post(`https://api.publisher.tonic.com/privileged/v3/campaign/callback`,call, {
