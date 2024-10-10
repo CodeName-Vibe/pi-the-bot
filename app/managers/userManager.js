@@ -10,6 +10,7 @@ class UserManager{
         onRework: 0,
         id: id,
         userData: {
+          network: '',
           tonikID: '',
           branch: '',
           campaignText: '',
@@ -19,7 +20,7 @@ class UserManager{
         apiData: {
           offerName: '',
           geo: '',
-          tonikLink: ''
+          trackingLink: ''
         }
       }
       this.database.push(this.buffer);
@@ -35,12 +36,32 @@ class UserManager{
       searchResult.onRework = onRework;
     }
 
-    this.setAPI = function(id, tonikID, offerName, geo, tonikLink) {
+    this.setNetwork = function(id, network) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      searchResult.userData.network = network;
+    }
+
+    this.setName = function(id, offerName) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      searchResult.apiData.offerName = offerName;
+    }
+
+    this.setLink = function(id, trackingLink) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      searchResult.apiData.trackingLink = trackingLink;
+    }
+
+    this.setGeo = function(id, geo) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      searchResult.apiData.geo = geo;
+    }
+
+    this.setAPI = function(id, tonikID, offerName, geo, trackingLink) {
       const searchResult = this.database.find(obj => obj.id === id);
       searchResult.userData.tonikID = tonikID;
       searchResult.apiData.offerName = offerName;
       searchResult.apiData.geo = geo;
-      searchResult.apiData.tonikLink = tonikLink;
+      searchResult.apiData.trackingLink = trackingLink;
     }
     
     this.setBranch = function(id, branch) {
@@ -78,6 +99,11 @@ class UserManager{
       return searchResult;
     }
 
+    this.getNetwork = function(id){
+      const searchResult = this.database.find(obj => obj.id === id);
+      return searchResult.userData.network;
+    }
+
     this.getTonikID = function(id){
       const searchResult = this.database.find(obj => obj.id === id);
       return searchResult.userData.tonikID;
@@ -93,9 +119,9 @@ class UserManager{
       return searchResult.apiData.geo;
     }
 
-    this.getTonikLink = function(id){
+    this.getTrackingLink = function(id){
       const searchResult = this.database.find(obj => obj.id === id);
-      return searchResult.apiData.tonikLink;
+      return searchResult.apiData.trackingLink;
     }
 
     this.getBranch = function(id){

@@ -1,5 +1,13 @@
 {
   "keyboard": {
+    "network": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "Tonik", "callback_data": "Tonik"}],
+          [{"text": "Domain Active", "callback_data": "Domain"}]
+        ]
+      }
+    },
     "branch": {
       "reply_markup": {
         "inline_keyboard": [
@@ -20,10 +28,15 @@
     "trafficCPC": {
       "reply_markup": {
         "inline_keyboard": [
-          [{"text": "Revcontent", "callback_data": "Revcontent"}],
-          [{"text": "Mgid", "callback_data": "Mgid"}],
-          [{"text": "Outbrain", "callback_data": "Outbrain"}],
-          [{"text": "Taboola", "callback_data": "Taboola"}]
+          [{"text": "Revcontent", "callback_data": "Revcontent"},{"text": "Mgid", "callback_data": "Mgid"}],
+          [{"text": "Outbrain", "callback_data": "Outbrain"},{"text": "Taboola", "callback_data": "Taboola"}]
+        ]
+      }
+    },
+    "trafficDomain": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "Outbrain", "callback_data": "Outbrain"},{"text": "Taboola", "callback_data": "Taboola"}]
         ]
       }
     },
@@ -39,22 +52,36 @@
     "changeDSP": {
       "reply_markup": {
         "inline_keyboard": [
-          [{"text": "Change Tonik ID", "callback_data": "1"}],
-          [{"text": "Change Branch", "callback_data": "2"}],
-          [{"text": "Change Campaign Text", "callback_data": "3"}],
-          [{"text": "Change Team", "callback_data": "4"}],
-          [{"text": "Change Traffic Source", "callback_data": "5"}],
-          [{"text": "Ok", "callback_data": "7"}]
+          [{"text": "Change Network", "callback_data": "1"}],
+          [{"text": "Change Tonik ID", "callback_data": "2"}],
+          [{"text": "Change Branch", "callback_data": "5"}],
+          [{"text": "Change Campaign Text", "callback_data": "6"}],
+          [{"text": "Change Team", "callback_data": "7"}],
+          [{"text": "Change Traffic Source", "callback_data": "8"}],
+          [{"text": "Ok", "callback_data": "11"}]
         ]
       }
     },
     "changeCPC": {
       "reply_markup": {
         "inline_keyboard": [
-          [{"text": "Change Tonik ID", "callback_data": "1"}],
-          [{"text": "Change Branch", "callback_data": "2"}],
-          [{"text": "Change Traffic Source", "callback_data": "5"}],
-          [{"text": "Ok", "callback_data": "7"}]
+          [{"text": "Change Network", "callback_data": "1"}],
+          [{"text": "Change Tonik ID", "callback_data": "2"}],
+          [{"text": "Change Branch", "callback_data": "5"}],
+          [{"text": "Change Traffic Source", "callback_data": "8"}],
+          [{"text": "Ok", "callback_data": "11"}]
+        ]
+      }
+    },
+    "changeDomain": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "Change Network", "callback_data": "1"}],
+          [{"text": "Change Offer Name", "callback_data": "3"}],
+          [{"text": "Change Domain Offer Link", "callback_data": "4"}],
+          [{"text": "Change Traffic Source", "callback_data": "8"}],
+          [{"text": "Change Geo", "callback_data": "9"}],
+          [{"text": "Ok", "callback_data": "11"}]
         ]
       }
     }
@@ -72,31 +99,46 @@
       "*Step 7*\nReinsure that all info you provided is correct\nIf something is wrong - choose the button with info you want to change\nIf everything is correct - choose the button with *Ok* on it",
       "Then after 1-2 minutes I will provide you with freshly created *Peerclick Link*. You can repeat this cycle for eternity\n_P.S. If you started Peerclick Link creation - it was reseted_"
     ],
-    "getTonikID": "1. Please Enter *Tonik Campaign ID*\n(it must be *6-7 digit number*)\n_example: 1234567_",
-    "getBranch": "2. Please Choose Branch:",
-    "getCampaignText": "3. Please Enter <b>Campaign Text</b>\n<i>example: That's How Psoriasis Treatment Works</i>",
-    "getTeam": "4. Please Choose Team:",
-    "getTrafficDSP": "5. Please Choose Traffic Source:",
-    "getTrafficCPC": "3. Please Choose Traffic Source:",
+    "getNetwork": "1. Please Choose Network:",
+    "getTonikID": "2. Please Enter *Tonik Campaign ID*\n(it must be *6-7 digit number*)\n_example: 1234567_",
+    "getName": "2. Please Enter <b>Offer Name</b>\n<i>example: Nickname - Offer_GEO</i>",
+    "getLink": "3. Please Enter *Domain Offer Link*\n_example: https:\u200B//search\u200B.hmsota\u200B.com/c/UNIQUE-CODE_",
+    "getBranch": "3. Please Choose Branch:",
+    "getCampaignText": "4. Please Enter <b>Campaign Text</b>\n<i>example: That's How Psoriasis Treatment Works</i>",
+    "getTeam": "5. Please Choose Team:",
+    "getTrafficDSP": "6. Please Choose Traffic Source:",
+    "getTrafficCPC": "4. Please Choose Traffic Source:",
+    "getTrafficDomain": "4. Please Choose Traffic Source:",
+    "getGeo": "5. Please Enter *Geo*\n(it must be *2 characters text*)\n_example: US_",
     "getChanges": ". Please check if information you provided *is correct*:",
+    "getChangesDomain": ". Please check if information you provided <b>is correct</b>:",
     "chooseChanges": "Select one:",
     "responceInputDone": "Now let me do my magic\nIt can take up to minute.",
     "errorNotString": "*Error:* wrong text type.",
+    "errorSelectNetwork": "You don't need to type anything\nJust choose Network from below:",
     "errorNotActive": "Hello, I am *π the PeerClick bot*. I will help you in creation of *Peerclick link*\nEnter */create* to start link creation\nor\nEnter */help* for instruction",
     "errorIDLenght": "*Error:* Tonik ID must be *6-7 digit* number",
     "errorIDNotNumber": "*Error:* Tonik ID must be *number*",
     "errorIDNotFound": "*Error:* There is no such Tonik ID. Make sure you've typed it correctly",
+    "errorWrongLink": "*Error:* Your Domain Offer Link must be as in example - https:\u200B//search\u200B.hmsota\u200B.com/c/UNIQUE-CODE",
     "errorSelectBranch": "You don't need to type anything\nJust choose Branch from below:",
     "errorCampaignTextLenght": "*Error:* Your *Campaign Text* is more than 65 characters long",
     "errorSelectTeam": "You don't need to type anything\nJust choose Team from below:",
     "errorSelectTraffic": "You don't need to type anything\nJust choose Traffic Source from below:",
+    "errorGeoLenght": "*Error:* Geo must be *2 characters* text",
+    "errorGeoNotText": "*Error:* Geo must be *text* without *spaces* and *numbers*",
     "errorSelectChange": "You don't need to type anything\nJust choose option from below:",
     "errorNotStarted": "*Error:* You haven't started bot. Enter /start to begin.",
-    "errorForbiddenWords": "*Error:* You have *Forbidden Word*: ",
-    "responcePostback": "Postback url was set correctly",
-    "responcePixel": "Pixel was set correctly",
-    "errorPostback": "*Error:* Postback url was set incorrectly",
-    "errorPixel": "*Error:* Pixel was set incorrectly"
+    "errorForbiddenWords": "*Error:* You have *Forbidden Word*: "
+  },
+  "tails": {
+    "cpcMgid": "?adtitle={token8}&site={token10}&subid1={token3}&subid2={token2}&subid3={token1}&subid4={clickid}&siteid={token2}&network=mgid",
+    "cpcRev": "?adtitle={token5}&site={referer}&subid1={token2}&subid2={token4}&subid3={token3}&subid4={clickid}&siteid={token4}&network=revcontent",
+    "cpcOut": "?adtitle={token2}&subid1={token10}|{token11}|{token1}|{token12}&site={token7}_{token8}&subid4={clickid}&siteid={token12}&network=outbrain",
+    "cpcTaboola": "?subid1={token5}&subid2={token1}&subid3={token6}&site={token1}&siteid={token2}&adtitle={token3}&subid4={clickid}&network=taboola",
+    "domainOut": "?title={token3}&campaign={token5}&site={token1}&siteid={token2}&tg1={token5}&tg2={token1}&tg3={token6}&tg4={clickid}&src=t",
+    "domainTaboola": "?adid={token2}&cat={token8}&pub={token7}&pubid={token11}&secid={token12}&tg1={token5}&tg2={token1}&tg3={token6}&tg4={clickid}&tg5={token12}&src=ob",
+    "dsp": "&site={referer}&subid4={clickid}&network=mgid&siteid={widget_id}&subid1={token1}|{token7}"
   },
   "forbiddenWords": {
     "Affordable": "Affordable",

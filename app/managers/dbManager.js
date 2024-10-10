@@ -1,4 +1,5 @@
 const axios = require("axios");
+const staticData = require('../staticData.json')
 
 class dbManager {
   key = '58cb6833bc2651bb50eaf108e258e897db93f2fc24f21257ae61769d1065adef';
@@ -28,7 +29,7 @@ class dbManager {
           needed = rk
         }
       });
-      console.log('Needed Tonic Info:', needed);
+      console.log('Needed Tonic Found');
       return needed;
     } catch (error) {
       console.error('Error:', error.message);
@@ -40,7 +41,7 @@ class dbManager {
     let token = 'a'
     const body = {
       email: "evgenii.teliatnykov@mirs.com",
-      password: "zzD54!7^dkU^"
+      password: "sqADhv5kt>^UyK+e"
     };
     await axios.post('https://api.peerclick.com/v1_1/auth/session',body).then(a=>{
       token = a.data.token
@@ -54,19 +55,19 @@ class dbManager {
     switch (data.trafficSource) {
       case 'MGID':
         ts = 1
-        tail = '?adtitle={token8}&site={token10}&subid1={token3}&subid2={token2}&subid3={token1}&subid4={clickid}&siteid={token2}&network=mgid'
+        tail = staticData.tails.cpcMgid;
         break;
       case 'REV':
         ts = 2
-        tail = '?adtitle={token5}&site={referer}&subid1={token2}&subid2={token4}&subid3={token3}&subid4={clickid}&siteid={token4}&network=revcontent'
+        tail = staticData.tails.cpcRev;
         break;
       case 'OUT':
         ts = 3
-        tail = '?adtitle={token2}&subid1={token10}|{token11}|{token1}|{token12}&site={token7}_{token8}&subid4={clickid}&siteid={token12}&network=outbrain'
+        tail = staticData.tails.cpcOut;
         break;
       case 'TABOOLA':
         ts = 56
-        tail = '?subid1={token5}&subid2={token1}&subid3={token6}&site={token1}&siteid={token2}&adtitle={token3}&subid4={clickid}&network=taboola'
+        tail = staticData.tails.cpcTaboola;
         break;
     }
     if(tail=='no_tail('){
@@ -103,7 +104,7 @@ class dbManager {
       return false
     })
     if(succ.description!='Success'){
-      console.log('Campaign creation failed:', campSuc);
+      console.log('Offer creation failed');
       return false
     }
     let cam = {
@@ -140,9 +141,12 @@ class dbManager {
     let campSuc = {}
     await axios.post('https://api.peerclick.com/v1_1/campaign',cam,{headers}).then(a=>{
       campSuc = a.data
-    }).catch(err=>{console.log(err.response.data.description)})
+    }).catch(err=>{
+      console.log(err.response.data.description)
+      return false
+    })
     if(campSuc.description!='Success'){
-      console.log('Offer creation failed:', succ);
+      console.log('Campaign creation failed');
       return false
     }
     const authResponse = await axios.post('https://api.publisher.tonic.com/jwt/authenticate', {
@@ -175,7 +179,7 @@ class dbManager {
     let token = 'a'
     const body = {
       email: "evgenii.teliatnykov@mirs.com",
-      password: "zzD54!7^dkU^"
+      password: "sqADhv5kt>^UyK+e"
     };
     await axios.post('https://api.peerclick.com/v1_1/auth/session',body).then(a=>{
       token = a.data.token
@@ -197,7 +201,7 @@ class dbManager {
         tail += symbol
       }
     }
-    tail += '&site={referer}&subid4={clickid}&network=mgid&siteid={widget_id}&subid1={token1}|{token7}'
+    tail += staticData.tails.dsp;
     let offerBody = {
       name: data.offerName,
       workspaceId: 1,
@@ -226,6 +230,7 @@ class dbManager {
       return false
     })
     if(succ.description!='Success'){
+      console.log('Offer creation failed');
       return false
     }
     let ts = 0
@@ -409,8 +414,12 @@ class dbManager {
     let campSuc = {}
     await axios.post('https://api.peerclick.com/v1_1/campaign',cam,{headers}).then(a=>{
       campSuc = a.data
-    }).catch(err=>{console.log(err.response.data.description)})
+    }).catch(err=>{
+      console.log(err.response.data.description)
+      return false
+    })
     if(campSuc.description!='Success'){
+      console.log('Campaign creation failed');
       return false
     }
     const authResponse = await axios.post('https://api.publisher.tonic.com/jwt/authenticate', {
@@ -428,6 +437,113 @@ class dbManager {
         'Content-Type': 'application/json'
       }
     });
+    return campSuc.campaign.url
+  }
+
+  async createPeerclickOfferDomain(data){
+    let token = 'a'
+    const body = {
+      email: "evgenii.teliatnykov@mirs.com",
+      password: "sqADhv5kt>^UyK+e"
+    };
+    await axios.post('https://api.peerclick.com/v1_1/auth/session',body).then(a=>{
+      token = a.data.token
+    }).catch(err=>{
+      console.log(err.message)
+      return false
+    })
+    let headers = {'api-token': token}
+    let tail = 'no_tail('
+    let ts = 0
+    switch (data.trafficSource) {
+      case 'OUT':
+        ts = 3
+        tail = staticData.tails.domainOut;
+        break;
+      case 'TABOOLA':
+        ts = 56
+        tail = staticData.tails.domainTaboola;
+        break;
+    }
+    if(tail=='no_tail('){
+      return false
+    }else if(ts==0){
+      return false
+    }
+    let offerBody = {
+      name: data.offerName,
+      workspaceId: 1,
+      url: data.offerLink+tail,
+      country: {
+        code: data.geo
+      },
+      affiliateNetwork: {
+        id: 7
+      },
+      payout: {
+        type: "AUTO",
+        value: null,
+        currency: "USD"
+      }
+
+    }
+    if(token=='a'){
+      console.log('Invalid token');
+      return false
+    }
+    let succ = {}
+    await axios.post('https://api.peerclick.com/v1_1/offer',offerBody,{headers}).then(a=>{
+      succ = a.data
+    }).catch(err=>{
+      console.log(err.message)
+      return false
+    })
+    if(succ.description!='Success'){
+      console.log('Offer creation failed');
+      return false
+    }
+    let cam = {
+      name: data.offerName,
+      workspaceId: 1,
+      trafficSource: ts,
+      costModel: {
+        type: "AUTO",
+        currency: "USD"
+      },
+      country: {
+        code: data.geo
+      },
+      domain: "track.jjstrack.com",
+      tags: [],
+      redirectTarget: {
+        destination: "PATH",
+        path: {
+          defaultPaths: [
+            {
+              weight: 100,
+              direct: 1,
+              offers: [
+                {
+                  weight: 100,
+                  id: succ.offer.id,
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+    let campSuc = {}
+    await axios.post('https://api.peerclick.com/v1_1/campaign',cam,{headers}).then(a=>{
+      campSuc = a.data
+    }).catch(err=>{
+      console.log(err.response.data.description)
+      return false
+    })
+    if(campSuc.description!='Success'){
+      console.log('Campaign creation failed');
+      return false
+    }
     return campSuc.campaign.url
   }
 }

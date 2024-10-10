@@ -31,8 +31,8 @@ router.post('/ApiManager/get-tonik-info',async(req, res)=>{
 
 router.post('/ApiManager/create-link',async(req, res)=>{
   const peerOffer = await dbManager.createPeerclickOffer(req.body)
-  console.log('peerOffer:', peerOffer);
   if(peerOffer){
+    console.log('CPC Tracking link created');
     res.status(200).send({
       ok:true,
       peerclickLink: "https"+peerOffer.split('http')[1]
@@ -48,7 +48,7 @@ router.post('/ApiManager/create-link',async(req, res)=>{
 // { 
 //    offerName:str,
 //    geo:str,
-//    offerLink:str
+//    link:str
 //    trafficSource:str,
 // } 
 // res: 
@@ -59,8 +59,9 @@ router.post('/ApiManager/create-link',async(req, res)=>{
 router.post('/ApiManager/create-link-dsp',async(req, res)=>{
   const peerOffer = await dbManager.createPeerclickOfferDSP(req.body)
   if(peerOffer){
+    console.log('DSP Tracking link created');
     res.status(200).send({
-      ok:false,
+      ok:true,
       peerclickLink: "https"+peerOffer.split('http')[1]
     })
   }else{
@@ -74,9 +75,36 @@ router.post('/ApiManager/create-link-dsp',async(req, res)=>{
 // { 
 //   offerName:str,
 //   geo:str,
-//   tonicLink:str,
+//   link:str,
 //   trafficSource:str,
 //   campaignText:str
+// } 
+// res: 
+// { 
+//   peerclickLink:str
+// }
+
+router.post('/ApiManager/create-link-domain',async(req, res)=>{
+  const peerOffer = await dbManager.createPeerclickOfferDomain(req.body)
+  if(peerOffer){
+    console.log('Domain Tracking link created');
+    res.status(200).send({
+      ok:true,
+      peerclickLink: "https"+peerOffer.split('http')[1]
+    })
+  }else{
+    res.status(200).send({
+      ok:false,
+    })
+  }
+})
+// /create-link-domain
+// req: 
+// { 
+//   offerName:str,
+//   geo:str,
+//   link:str,
+//   trafficSource:str
 // } 
 // res: 
 // { 

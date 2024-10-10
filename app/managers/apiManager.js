@@ -19,46 +19,84 @@ class ApiManager{
       // return true;
     }
 
-    this.getPeerclickLink = async function(tonicId, offerName, geo, branch, tonikLink, trafficSource, campaignText, team) {
-      if (branch == "CPC") {
+    this.getPeerclickLink = async function(network, tonicId, offerName, geo, branch, tonikLink, trafficSource, campaignText, team) {
+      if (network == "Tonik") {
+        if (branch == "CPC") {
+          let ts = ''
+          if (trafficSource == "Outbrain") {
+            ts = 'OUT'
+          } else if (trafficSource == "Mgid") {
+            ts = 'MGID'
+          } else if (trafficSource == "Revcontent") {
+            ts = 'REV'
+          } else if (trafficSource == "Taboola") {
+            ts = 'TABOOLA'
+          }
+          let data = { 
+            offerName: offerName,
+            geo: geo,
+            offerLink: tonikLink,
+            trafficSource: ts,
+            tonicId:tonicId
+          }
+          let createLink = await axios.post(staticData.APIUrl+PORT+'/ApiManager/create-link',data).catch(err=>{
+            console.log(err)
+            return false
+          })
+          if (!createLink.data.ok) {
+            return false
+          } else {
+            return createLink.data
+          }
+        } else if (branch == "DSP") {
+          let ts = "";
+          if (team == "StapMgidDSP") {
+            ts = "s" + trafficSource
+          } else if (team == "VladMgidDSP") {
+            ts = "v" + trafficSource
+          } else if (team == "MgidDSP") {
+            ts = "j" + trafficSource
+          }
+          let data = { 
+            offerName: offerName,
+            geo: geo,
+            tonicLink: tonikLink,
+            trafficSource: ts,
+            campaignText: campaignText,
+            tonicId:tonicId
+          }
+          let createLink = await axios.post(staticData.APIUrl+PORT+'/ApiManager/create-link-dsp',data).catch(err=>{
+            console.log(err)
+            return false
+          })
+          if (!createLink.data.ok) {
+            return false
+          } else {
+            return createLink.data
+          }
+        }
+      } else if (network == "Domain") {
         let ts = ''
-        if (trafficSource == "Outbrain") {
-          ts = 'OUT'
-        } else if (trafficSource == "Mgid") {
-          ts = 'MGID'
-        } else if (trafficSource == "Revcontent") {
-          ts = 'REV'
-        } else if (trafficSource == "Taboola") {
-          ts = 'TABOOLA'
-        }
-        let data = { 
-          offerName: offerName,
-          geo: geo,
-          offerLink: tonikLink,
-          trafficSource: ts,
-          tonicId:tonicId
-        }
-        let createLink = await axios.post(staticData.APIUrl+PORT+'/ApiManager/create-link',data).catch(err=>{console.log(err)})
-        return createLink.data
-      } else if (branch == "DSP") {
-        let ts = "";
-        if (team == "StapMgidDSP") {
-          ts = "s" + trafficSource
-        } else if (team == "VladMgidDSP") {
-          ts = "v" + trafficSource
-        } else if (team == "MgidDSP") {
-          ts = "j" + trafficSource
-        }
-        let data = { 
-          offerName: offerName,
-          geo: geo,
-          tonicLink: tonikLink,
-          trafficSource: ts,
-          campaignText: campaignText,
-          tonicId:tonicId
-        }
-        let createLink = await axios.post(staticData.APIUrl+PORT+'/ApiManager/create-link-dsp',data).catch(err=>{console.log(err)})
-        return createLink.data
+          if (trafficSource == "Outbrain") {
+            ts = 'OUT'
+          } else if (trafficSource == "Taboola") {
+            ts = 'TABOOLA'
+          }
+          let data = { 
+            offerName: offerName,
+            geo: geo,
+            offerLink: tonikLink,
+            trafficSource: ts
+          }
+          let createLink = await axios.post(staticData.APIUrl+PORT+'/ApiManager/create-link-domain',data).catch(err=>{
+            console.log(err)
+            return false
+          })
+          if (!createLink.data.ok) {
+            return false
+          } else {
+            return createLink.data
+          }
       }
       // return "peerclick-link-for-test"
     }
