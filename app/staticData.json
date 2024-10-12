@@ -136,8 +136,8 @@
     "cpcRev": "?adtitle={token5}&site={referer}&subid1={token2}&subid2={token4}&subid3={token3}&subid4={clickid}&siteid={token4}&network=revcontent",
     "cpcOut": "?adtitle={token2}&subid1={token10}|{token11}|{token1}|{token12}&site={token7}_{token8}&subid4={clickid}&siteid={token12}&network=outbrain",
     "cpcTaboola": "?subid1={token5}&subid2={token1}&subid3={token6}&site={token1}&siteid={token2}&adtitle={token3}&subid4={clickid}&network=taboola",
-    "domainOut": "?title={token3}&campaign={token5}&site={token1}&siteid={token2}&tg1={token5}&tg2={token1}&tg3={token6}&tg4={clickid}&src=t",
-    "domainTaboola": "?adid={token2}&cat={token8}&pub={token7}&pubid={token11}&secid={token12}&tg1={token5}&tg2={token1}&tg3={token6}&tg4={clickid}&tg5={token12}&src=ob",
+    "domainTaboola": "?title={token3}&campaign={token5}&site={token1}&siteid={token2}&tg1={token5}&tg2={token1}&tg3={token6}&tg4={clickid}&src=t",
+    "domainOut": "?adid={token2}&cat={token8}&pub={token7}&pubid={token11}&secid={token12}&tg1={token5}&tg2={token1}&tg3={token6}&tg4={clickid}&tg5={token12}&src=ob",
     "dsp": "&site={referer}&subid4={clickid}&network=mgid&siteid={widget_id}&subid1={token1}|{token7}"
   },
   "forbiddenWords": {
