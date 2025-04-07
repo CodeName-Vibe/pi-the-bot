@@ -41,7 +41,7 @@ class dbManager {
     let token = 'a'
     const body = {
       email: "evgenii.teliatnykov@mirs.com",
-      password: "sqADhv5kt>^UyK+e"
+      password: "L;7D+NXE%uHp#c6A"
     };
     await axios.post('https://api.peerclick.com/v1_1/auth/session',body).then(a=>{
       token = a.data.token
@@ -179,7 +179,7 @@ class dbManager {
     let token = 'a'
     const body = {
       email: "evgenii.teliatnykov@mirs.com",
-      password: "sqADhv5kt>^UyK+e"
+      password: "L;7D+NXE%uHp#c6A"
     };
     await axios.post('https://api.peerclick.com/v1_1/auth/session',body).then(a=>{
       token = a.data.token
@@ -444,7 +444,7 @@ class dbManager {
     let token = 'a'
     const body = {
       email: "evgenii.teliatnykov@mirs.com",
-      password: "sqADhv5kt>^UyK+e"
+      password: "L;7D+NXE%uHp#c6A"
     };
     await axios.post('https://api.peerclick.com/v1_1/auth/session',body).then(a=>{
       token = a.data.token
