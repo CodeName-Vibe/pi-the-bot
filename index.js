@@ -15,8 +15,8 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-const token = '7106816891:AAHc5MKlu10ph-rrKL27n1_QXp0UVbaH0oI'; // prod
-// const token = '6640526394:AAG91IJQZL-wdJWDiVVsI2ygl5YybEFphME'; // test
+// const token = '7106816891:AAHc5MKlu10ph-rrKL27n1_QXp0UVbaH0oI'; // prod
+const token = '6640526394:AAG91IJQZL-wdJWDiVVsI2ygl5YybEFphME'; // test
 
 const bot = new TelegramBot(token, {polling: true});
 const botManager = new BotManager(bot);
@@ -71,12 +71,14 @@ bot.on('message', (msg) => {
           bot.sendMessage(msg.chat.id, statics.content.errorSelectTraffic, statics.keyboard.trafficDSP);
         } else if (userManager.getNetwork(msg.from.id) == "Domain") {
           bot.sendMessage(msg.chat.id, statics.content.errorSelectTraffic, statics.keyboard.trafficDomain);
+        } else if (userManager.getNetwork(msg.from.id) == "Inuvo") {
+          bot.sendMessage(msg.chat.id, statics.content.errorSelectTraffic, statics.keyboard.trafficInuvo);
         }
       } else if (userManager.getStep(msg.from.id) == 9) {
         if (userManager.getOnRework(msg.from.id) == 1) {
-          botManager.responceGeo(msg);
+          botManager.responceGeo(msg, 1);
         } else {
-          botManager.responceGeo(msg);
+          botManager.responceGeo(msg, 0);
         }
       } else if (userManager.getStep(msg.from.id) == 10) {
         if (userManager.getBranch(msg.from.id) == "CPC" && userManager.getNetwork(msg.from.id) == "Tonik") {
@@ -86,6 +88,14 @@ bot.on('message', (msg) => {
         } else if (userManager.getNetwork(msg.from.id) == "Domain") {
           bot.sendMessage(msg.chat.id, statics.content.errorSelectChange, statics.keyboard.changeDomain);
         }
+      } else if (userManager.getStep(msg.from.id) == 12) {
+        if (userManager.getOnRework(msg.from.id) == 1) {
+          botManager.responceCampId(msg, 1);
+        } else {
+          botManager.responceCampId(msg, 0);
+        }
+      } else if (userManager.getStep(msg.from.id) == 13) {
+        botManager.responceOfferLink(msg);
       } else {
         bot.sendMessage(msg.chat.id, statics.content.errorNotActive, {parse_mode: 'Markdown'})
       }
@@ -100,7 +110,7 @@ bot.on('message', (msg) => {
 bot.on('callback_query', (query) => {
   if (!userManager.getUser(query.from.id)) {
     bot.sendMessage(query.message.chat.id, statics.content.errorNotStarted, {parse_mode: 'Markdown'})
-  } else if ((query.data == "Tonik" || query.data == "Domain") && userManager.getStep(query.from.id) == "1") {
+  } else if ((query.data == "Tonik" || query.data == "Domain" || query.data == "Inuvo") && userManager.getStep(query.from.id) == "1") {
     botManager.responceNetwork(query)
   } else if (((query.data == "CPC" && userManager.getNetwork(query.from.id) == "Tonik") || (query.data == "DSP" && userManager.getNetwork(query.from.id) == "Tonik")) && userManager.getStep(query.from.id) == "5") {
     botManager.responseBranch(query)
@@ -112,7 +122,9 @@ bot.on('callback_query', (query) => {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
   } else if (userManager.getNetwork(query.from.id) == "Domain" && userManager.getStep(query.from.id) == "8" && (query.data == "Outbrain" || query.data == "Taboola")) {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
-  } else if (userManager.getStep(query.from.id) == "10" && (query.data == "1" || query.data == "2" || query.data == "3" || query.data == "4" || query.data == "5" || query.data == "6" || query.data == "7" || query.data == "8" || query.data == "9" || query.data == "11")) {
+  } else if (userManager.getNetwork(query.from.id) == "Inuvo" && userManager.getStep(query.from.id) == "8" && (query.data == "Mgid" || query.data == "Rev0" || query.data == "Rev1" || query.data == "Rev2")) {
+    botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
+  } else if (userManager.getStep(query.from.id) == "10" && (query.data == "1" || query.data == "2" || query.data == "3" || query.data == "4" || query.data == "5" || query.data == "6" || query.data == "7" || query.data == "8" || query.data == "9" || query.data == "11" || query.data == "12" || query.data == "13")) {
     botManager.responseChange(query.data, query.message.chat.id, query.from.id)
   }
 });

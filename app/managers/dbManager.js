@@ -546,6 +546,123 @@ class dbManager {
     }
     return campSuc.campaign.url
   }
+
+  async createPeerclickOfferInuvo(data){
+    let token = 'a'
+    const body = {
+      email: "evgenii.teliatnykov@mirs.com",
+      password: "L;7D+NXE%uHp#c6A"
+    };
+    await axios.post('https://api.peerclick.com/v1_1/auth/session',body).then(a=>{
+      token = a.data.token
+    }).catch(err=>{
+      console.log(err.message)
+      return false
+    })
+    let headers = {'api-token': token}
+    let tail = 'no_tail('
+    let ts = 0
+    switch (data.trafficSource) {
+      case 'MGID':
+        ts = 1
+        tail = staticData.tails.inuvoMgid;
+        break;
+      case 'REV0':
+        ts = 68
+        tail = staticData.tails.inuvoRev;
+        break;
+      case 'REV1':
+        ts = 67
+        tail = staticData.tails.inuvoRev;
+        break;
+      case 'REV2':
+        ts = 66
+        tail = staticData.tails.inuvoRev;
+        break;
+    }
+    if(tail=='no_tail('){
+      return false
+    }else if(ts==0){
+      return false
+    } else if(token=='a'){
+      console.log('Invalid token');
+      return false
+    }
+
+    let offers = [];
+    for (let [i, offerLink] of data.offerLinks.entries()) {
+      let offerBody = {
+        name: data.offerName + ' - ' + (i + 1),
+        workspaceId: 1,
+        url: offerLink + tail + data.campId,
+        country: {
+          code: data.geo
+        },
+        affiliateNetwork: {
+          id: 10
+        },
+        payout: {
+          type: "AUTO",
+          value: null,
+          currency: "USD"
+        }
+      };
+
+      try {
+        let response = await axios.post('https://api.peerclick.com/v1_1/offer', offerBody, { headers });
+        let succ = response.data;
+
+        if (succ.description !== 'Success') {
+          console.log('Offer creation failed');
+          return false;
+        }
+
+        offers.push({ weight: 100, id: succ.offer.id });
+      } catch (err) {
+        console.log(err.message);
+        return false;
+      }
+    }
+
+    let cam = {
+      name: data.offerName,
+      workspaceId: 1,
+      trafficSource: ts,
+      costModel: {
+        type: "AUTO",
+        currency: "USD"
+      },
+      country: {
+        code: data.geo
+      },
+      domain: "track.jjstrack.com",
+      tags: [],
+      redirectTarget: {
+        destination: "PATH",
+        path: {
+          defaultPaths: [
+            {
+              weight: 100,
+              direct: 1,
+              offers: offers
+            }
+          ]
+        }
+      }
+    }
+    let campSuc = {}
+    await axios.post('https://api.peerclick.com/v1_1/campaign',cam,{headers}).then(a=>{
+      campSuc = a.data
+    }).catch(err=>{
+      console.log(err.response.data.description)
+      return false
+    })
+    if(campSuc.description!='Success'){
+      console.log('Campaign creation failed');
+      return false
+    }
+    return campSuc.campaign.url.replace("&rc_uuid={rc_uuid}", "")
+  }
 }
 
 module.exports = new dbManager();

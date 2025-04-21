@@ -12,6 +12,8 @@ class UserManager{
         userData: {
           network: '',
           tonikID: '',
+          campId: 0,
+          offerLink: {},
           branch: '',
           campaignText: '',
           team: '',
@@ -54,6 +56,25 @@ class UserManager{
     this.setGeo = function(id, geo) {
       const searchResult = this.database.find(obj => obj.id === id);
       searchResult.apiData.geo = geo;
+    }
+
+    this.setCampId = function(id, campId) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      searchResult.userData.campId = campId;
+    }
+
+    this.setOfferLink = function(id, offerLink) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      if (offerLink == 'clear') {
+        searchResult.userData.offerLink = {};
+        return;
+      } else {
+        if (searchResult.userData.offerLink[offerLink]) {
+          delete searchResult.userData.offerLink[offerLink];
+        } else {
+          searchResult.userData.offerLink[offerLink] = offerLink;
+        }
+      }
     }
 
     this.setAPI = function(id, tonikID, offerName, geo, trackingLink) {
@@ -117,6 +138,16 @@ class UserManager{
     this.getGeo = function(id){
       const searchResult = this.database.find(obj => obj.id === id);
       return searchResult.apiData.geo;
+    }
+
+    this.getCampId = function(id){
+      const searchResult = this.database.find(obj => obj.id === id);
+      return searchResult.userData.campId;
+    }
+
+    this.getOfferLink = function(id){
+      const searchResult = this.database.find(obj => obj.id === id);
+      return Object.values(searchResult.userData.offerLink);
     }
 
     this.getTrackingLink = function(id){

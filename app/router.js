@@ -111,4 +111,32 @@ router.post('/ApiManager/create-link-domain',async(req, res)=>{
 //   peerclickLink:str
 // }
 
+router.post('/ApiManager/create-link-inuvo',async(req, res)=>{
+  const peerOffer = await dbManager.createPeerclickOfferInuvo(req.body)
+  if(peerOffer){
+    console.log('Inuvo Tracking link created');
+    res.status(200).send({
+      ok:true,
+      peerclickLink: "https"+peerOffer.split('http')[1]
+    })
+  }else{
+    res.status(200).send({
+      ok:false,
+    })
+  }
+})
+// /create-link-inuvo
+// req: 
+// { 
+//   offerName:str,
+//   geo:str,
+//   trafficSource:str,
+//   campId:num,
+//   offerLinks:array<str>
+// } 
+// res: 
+// { 
+//   peerclickLink:str
+// }
+
 module.exports = router

@@ -19,7 +19,7 @@ class ApiManager{
       // return true;
     }
 
-    this.getPeerclickLink = async function(network, tonicId, offerName, geo, branch, tonikLink, trafficSource, campaignText, team) {
+    this.getPeerclickLink = async function(network, tonicId, offerName, geo, branch, tonikLink, trafficSource, campaignText, team, campId, offerLinks) {
       if (network == "Tonik") {
         if (branch == "CPC") {
           let ts = ''
@@ -89,6 +89,33 @@ class ApiManager{
             trafficSource: ts
           }
           let createLink = await axios.post(staticData.APIUrl+PORT+'/ApiManager/create-link-domain',data).catch(err=>{
+            console.log(err)
+            return false
+          })
+          if (!createLink.data.ok) {
+            return false
+          } else {
+            return createLink.data
+          }
+      } else if (network == "Inuvo") {
+        let ts = ''
+          if (trafficSource == "Mgid") {
+            ts = 'MGID'
+          } else if (trafficSource == "Rev0") {
+            ts = 'REV0'
+          } else if (trafficSource == "Rev1") {
+            ts = 'REV1'
+          } else if (trafficSource == "Rev2") {
+            ts = 'REV2'
+          }
+          let data = { 
+            offerName: offerName,
+            geo: geo,
+            trafficSource: ts,
+            campId: campId,
+            offerLinks: offerLinks,
+          }
+          let createLink = await axios.post(staticData.APIUrl+PORT+'/ApiManager/create-link-inuvo',data).catch(err=>{
             console.log(err)
             return false
           })

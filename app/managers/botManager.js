@@ -34,6 +34,9 @@ class BotManager{
     } else if (selection.data == "Domain") {
       userManager.setStep(selection.from.id, 3);
       this.bot.sendMessage(selection.message.chat.id, statics.content.getName, {parse_mode: 'HTML'})
+    } else if (selection.data == "Inuvo") {
+      userManager.setStep(selection.from.id, 3);
+      this.bot.sendMessage(selection.message.chat.id, statics.content.getName, {parse_mode: 'HTML'})
     }
   }
   async responseTonikID(msg, rework) {
@@ -56,16 +59,19 @@ class BotManager{
         this.bot.sendMessage(msg.chat.id, statics.content.errorIDLenght, {parse_mode: 'Markdown'})
       }
     } else {
-      this.bot.sendMessage(msg.chat.id, statics.content.errorIDNotNumber, {parse_mode: 'Markdown'})
+      this.bot.sendMessage(msg.chat.id, statics.content.errorTonikIDNotNumber, {parse_mode: 'Markdown'})
     }
   }
   responceName(msg, rework) {
     userManager.setName(msg.chat.id, msg.text)
     if (rework) {
       this.responseChange("10", msg.chat.id, msg.from.id);
-    } else {
+    } else if (userManager.getNetwork(msg.from.id) == "Domain") {
       userManager.setStep(msg.from.id, 4);
       this.bot.sendMessage(msg.chat.id, statics.content.getLink, {parse_mode: 'Markdown'})
+    } else if (userManager.getNetwork(msg.from.id) == "Inuvo") {
+      userManager.setStep(msg.from.id, 9);
+      this.bot.sendMessage(msg.chat.id, statics.content.getGeoInuvo, {parse_mode: 'Markdown'})
     }
   }
   responceLink(msg, rework) {
@@ -134,28 +140,74 @@ class BotManager{
         this.responseChange("10", selection.message.chat.id, selection.from.id);
       } else {
         userManager.setStep(selection.from.id, 9);
-        this.bot.sendMessage(selection.message.chat.id, statics.content.getGeo, {parse_mode: 'Markdown'})
+        this.bot.sendMessage(selection.message.chat.id, statics.content.getGeoDomain, {parse_mode: 'Markdown'})
+      }
+    } else if (userManager.getNetwork(selection.from.id) == "Inuvo") {
+      if (rework) {
+        this.responseChange("10", selection.message.chat.id, selection.from.id);
+      } else {
+        userManager.setStep(selection.from.id, 12);
+        this.bot.sendMessage(selection.message.chat.id, statics.content.getCampId, {parse_mode: 'Markdown'})
       }
     } else {
       this.responseChange("10", selection.message.chat.id, selection.from.id);
     }
   }
-  responceGeo(msg) {
+  responceGeo(msg, rework) {
     const regex = /\d/;
     if (msg.text.length == 2) {
-      if (!msg.text.includes(' ') && !regex.test(msg.text)) {
-        userManager.setGeo(msg.chat.id, msg.text.toUpperCase())
+      if (!msg.text.includes(' ') && !regex.test(msg.text) && userManager.getNetwork(msg.from.id) == "Domain") {
+        userManager.setGeo(msg.chat.id, msg.text.toUpperCase());
         this.responseChange("10", msg.chat.id, msg.from.id);
-      } else {
+      } else if (!msg.text.includes(' ') && !regex.test(msg.text) && userManager.getNetwork(msg.from.id) == "Inuvo") {
+        userManager.setGeo(msg.chat.id, msg.text.toUpperCase());
+        if (rework) {
+          this.responseChange("10", msg.chat.id, msg.from.id);
+        } else {
+          userManager.setStep(msg.from.id, 8);
+          this.bot.sendMessage(msg.chat.id, statics.content.getTrafficInuvo, statics.keyboard.trafficInuvo)
+        }
+      } else{
         this.bot.sendMessage(msg.chat.id, statics.content.errorGeoNotText, {parse_mode: 'Markdown'})
       }
     } else {
       this.bot.sendMessage(msg.chat.id, statics.content.errorGeoLenght, {parse_mode: 'Markdown'})
     }
   }
+  responceCampId(msg, rework) {
+    if (parseInt(msg.text)) {
+      userManager.setCampId(msg.chat.id, msg.text);
+      if (rework) {
+        this.responseChange("10", msg.chat.id, msg.from.id);
+      } else {
+        userManager.setStep(msg.from.id, 13);
+        this.bot.sendMessage(msg.chat.id, statics.content.getOfferLink, {parse_mode: 'Markdown'})
+      }
+    } else {
+      this.bot.sendMessage(msg.chat.id, statics.content.errorCampIDNotNumber, {parse_mode: 'Markdown'})
+    }
+  }
+  responceOfferLink(msg) {
+    if (msg.text.includes('https:​//bertio​.com/article/')) {
+      userManager.setOfferLink(msg.chat.id, msg.text)
+      let addedOfferLinks = '';
+      userManager.getOfferLink(msg.chat.id).forEach((ol, index) => {
+        addedOfferLinks += `\n${index + 1}. <u>${ol}</u>`
+      });
+      this.bot.sendMessage(msg.chat.id, statics.content.getOfferLinkAgain + addedOfferLinks, {parse_mode: 'HTML'})
+
+      // userManager.setStep(msg.from.id, 8);
+      // this.bot.sendMessage(msg.chat.id, statics.content.getTrafficDomain, statics.keyboard.trafficDomain)
+    } else if (msg.text.includes('/finish')) {
+      this.responseChange("10", msg.chat.id, msg.from.id);
+    } else {
+      this.bot.sendMessage(msg.chat.id, statics.content.errorWrongOfferLink, {parse_mode: 'Markdown'})
+    }
+  }
   responseChange(change, chat, id) {
     userManager.setOnRework(id, 1);
     if (change == "1") {
+      userManager.setOfferLink(id, 'clear');
       userManager.setStep(id, 1);
       this.bot.sendMessage(chat, statics.content.getNetwork, statics.keyboard.network)
     } else if (change == "2") {
@@ -184,15 +236,30 @@ class BotManager{
         this.bot.sendMessage(chat, statics.content.getTrafficDSP, statics.keyboard.trafficDSP)
       } else if (userManager.getNetwork(id) == "Domain") {
         this.bot.sendMessage(chat, statics.content.getTrafficDomain, statics.keyboard.trafficDomain)
+      } else if (userManager.getNetwork(id) == "Inuvo") {
+        this.bot.sendMessage(chat, statics.content.getTrafficInuvo, statics.keyboard.trafficInuvo)
       }
     } else if (change == "9") {
       userManager.setStep(id, 9);
-      this.bot.sendMessage(chat, statics.content.getGeo, {parse_mode: 'Markdown'})
-
+      if (userManager.getNetwork(id) == "Domain") {
+        this.bot.sendMessage(chat, statics.content.getGeoDomain, {parse_mode: 'Markdown'})
+      } else if (userManager.getNetwork(id) == "Inuvo") {
+        this.bot.sendMessage(chat, statics.content.getGeoInuvo, {parse_mode: 'Markdown'})
+      }
+    } else if (change == "12") {
+      userManager.setStep(id, 12);
+      this.bot.sendMessage(chat, statics.content.getCampId, {parse_mode: 'Markdown'})
+    } else if (change == "13") {
+      userManager.setStep(id, 13);
+      let addedOfferLinks = '';
+      userManager.getOfferLink(id).forEach((ol, index) => {
+        addedOfferLinks += `\n${index + 1}. <u>${ol}</u>`
+      });
+      this.bot.sendMessage(chat, statics.content.getOfferLinkAgain + addedOfferLinks, {parse_mode: 'HTML'})
     } else if (change == "10") {
       userManager.setStep(id, 10);
       if (userManager.getBranch(id) == "CPC" && userManager.getNetwork(id) == "Tonik") {
-        this.bot.sendMessage(chat, `4${statics.content.getChanges}\n\n*Network* - ${userManager.getNetwork(id)}\n*Tonik ID* - ${userManager.getTonikID(id)}\n*Branch* - ${userManager.getBranch(id)}\n*Traffic Source* - ${userManager.getTrafficSource(id)}`, {parse_mode: 'Markdown'})
+        this.bot.sendMessage(chat, `5${statics.content.getChanges}\n\n*Network* - ${userManager.getNetwork(id)}\n*Tonik ID* - ${userManager.getTonikID(id)}\n*Branch* - ${userManager.getBranch(id)}\n*Traffic Source* - ${userManager.getTrafficSource(id)}`, {parse_mode: 'Markdown'})
         setTimeout(() => {
           this.bot.sendMessage(chat, statics.content.chooseChanges, statics.keyboard.changeCPC)
         }, 200);
@@ -202,9 +269,28 @@ class BotManager{
           this.bot.sendMessage(chat, statics.content.chooseChanges, statics.keyboard.changeDSP)
         }, 200);
       } else if (userManager.getNetwork(id) == "Domain") {
-        this.bot.sendMessage(chat, `6${statics.content.getChanges}\n\n<b>Network</b> - ${userManager.getNetwork(id)}\n<b>Offer Name</b> - ${userManager.getOfferName(id)}\n<b>Domain Offer Link</b> - ${userManager.getTrackingLink(id)}\n<b>Traffic Source</b> - ${userManager.getTrafficSource(id)}\n<b>Geo</b> - ${userManager.getGeo(id)}`, {parse_mode: 'HTML'})
+        this.bot.sendMessage(chat, `6${statics.content.getChangesDomain}\n\n<b>Network</b> - ${userManager.getNetwork(id)}\n<b>Offer Name</b> - ${userManager.getOfferName(id)}\n<b>Domain Offer Link</b> - ${userManager.getTrackingLink(id)}\n<b>Traffic Source</b> - ${userManager.getTrafficSource(id)}\n<b>Geo</b> - ${userManager.getGeo(id)}`, {parse_mode: 'HTML'})
         setTimeout(() => {
           this.bot.sendMessage(chat, statics.content.chooseChanges, statics.keyboard.changeDomain)
+        }, 200);
+      } else if (userManager.getNetwork(id) == "Inuvo") {
+        let offerLinksText = '';
+        userManager.getOfferLink(id).forEach((ol, index) => {
+          offerLinksText += `\n${index + 1}. <u>${ol}</u>`
+        })
+
+        let trafficSourceText = '';
+        if (userManager.getTrafficSource(id) == "Rev0") {
+          trafficSourceText = "Rev: @\u200Bteliatnykov"
+        } else if (userManager.getTrafficSource(id) == "Rev1") {
+          trafficSourceText = "Rev: @\u200Bjonydep.lazarchuk"
+        } else if (userManager.getTrafficSource(id) == "Rev2") {
+          trafficSourceText = "Rev: @\u200Bevgenii.teliatnykov"
+        }
+
+        this.bot.sendMessage(chat, `7${statics.content.getChangesDomain}\n\n<b>Network</b> - ${userManager.getNetwork(id)}\n<b>Offer Name</b> - ${userManager.getOfferName(id)}\n<b>Geo</b> - ${userManager.getGeo(id)}\n<b>Traffic Source</b> - ${trafficSourceText}\n<b>Camp ID</b> - ${userManager.getCampId(id)}\n<b>Offer Links</b>: ${offerLinksText}`, {parse_mode: 'HTML'})
+        setTimeout(() => {
+          this.bot.sendMessage(chat, statics.content.chooseChanges, statics.keyboard.changeInuvo)
         }, 200);
       }
     } else if (change == "11") {
@@ -222,7 +308,19 @@ class BotManager{
     userManager.setStep(id, 0);
     this.bot.sendMessage(chat, statics.content.responceInputDone, {parse_mode: 'Markdown'});
     setTimeout(async () => {
-      let stext = await apiManager.getPeerclickLink(userManager.getNetwork(id), userManager.getTonikID(id), userManager.getOfferName(id), userManager.getGeo(id), userManager.getBranch(id), userManager.getTrackingLink(id), userManager.getTrafficSource(id), userManager.getCampaignText(id), userManager.getTeam(id));
+      let stext = await apiManager.getPeerclickLink(
+        userManager.getNetwork(id),
+        userManager.getTonikID(id),
+        userManager.getOfferName(id),
+        userManager.getGeo(id),
+        userManager.getBranch(id),
+        userManager.getTrackingLink(id),
+        userManager.getTrafficSource(id),
+        userManager.getCampaignText(id),
+        userManager.getTeam(id),
+        userManager.getCampId(id),
+        userManager.getOfferLink(id)
+      );
       if (!stext) {
         this.bot.sendMessage(chat, 'Creation went worng');
       } else {

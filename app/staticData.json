@@ -4,7 +4,8 @@
       "reply_markup": {
         "inline_keyboard": [
           [{"text": "Tonik", "callback_data": "Tonik"}],
-          [{"text": "Domain Active", "callback_data": "Domain"}]
+          [{"text": "Domain Active", "callback_data": "Domain"}],
+          [{"text": "Inuvo", "callback_data": "Inuvo"}]
         ]
       }
     },
@@ -37,6 +38,16 @@
       "reply_markup": {
         "inline_keyboard": [
           [{"text": "Outbrain", "callback_data": "Outbrain"},{"text": "Taboola", "callback_data": "Taboola"}]
+        ]
+      }
+    },
+    "trafficInuvo": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "Mgid", "callback_data": "Mgid"}],
+          [{"text": "Rev: @teliatnykov", "callback_data": "Rev0"}],
+          [{"text": "Rev: @jonydep.lazarchuk", "callback_data": "Rev1"}],
+          [{"text": "Rev: @evgenii.teliatnykov", "callback_data": "Rev2"}]
         ]
       }
     },
@@ -84,6 +95,19 @@
           [{"text": "Ok", "callback_data": "11"}]
         ]
       }
+    },
+    "changeInuvo": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "Change Network", "callback_data": "1"}],
+          [{"text": "Change Offer Name", "callback_data": "3"}],
+          [{"text": "Change Geo", "callback_data": "9"}],
+          [{"text": "Change Traffic Source", "callback_data": "8"}],
+          [{"text": "Change Camp ID", "callback_data": "12"}],
+          [{"text": "Change Offer Links", "callback_data": "13"}],
+          [{"text": "Ok", "callback_data": "11"}]
+        ]
+      }
     }
   },
   "APIUrl":"http://0.0.0.0:",
@@ -109,7 +133,12 @@
     "getTrafficDSP": "6. Please Choose Traffic Source:",
     "getTrafficCPC": "4. Please Choose Traffic Source:",
     "getTrafficDomain": "4. Please Choose Traffic Source:",
-    "getGeo": "5. Please Enter *Geo*\n(it must be *2 characters text*)\n_example: US_",
+    "getTrafficInuvo": "4. Please Choose Traffic Source:",
+    "getGeoDomain": "5. Please Enter *Geo*\n(it must be *2 characters text*)\n_example: US_",
+    "getGeoInuvo": "3. Please Enter *Geo*\n(it must be *2 characters text*)\n_example: US_",
+    "getCampId": "5. Please Enter *Camp ID*\n(it must be number)\n_example: 417655_",
+    "getOfferLink": "6. Please Enter *Offer Link* to add one to your *Campaign*\n_example: https:\u200B//bertio\u200B.com/article/sample-text_",
+    "getOfferLinkAgain": "If you want to add or delete <b>Offer</b> - enter it's link\nIf you want to finish - type /finish\n\n<b>Offer Links</b> you added:",
     "getChanges": ". Please check if information you provided *is correct*:",
     "getChangesDomain": ". Please check if information you provided <b>is correct</b>:",
     "chooseChanges": "Select one:",
@@ -118,9 +147,11 @@
     "errorSelectNetwork": "You don't need to type anything\nJust choose Network from below:",
     "errorNotActive": "Hello, I am *π the PeerClick bot*. I will help you in creation of *Peerclick link*\nEnter */create* to start link creation\nor\nEnter */help* for instruction",
     "errorIDLenght": "*Error:* Tonik ID must be *6-7 digit* number",
-    "errorIDNotNumber": "*Error:* Tonik ID must be *number*",
+    "errorTonikIDNotNumber": "*Error:* Tonik ID must be *number*",
+    "errorCampIDNotNumber": "*Error:* Camp ID must be *number*",
     "errorIDNotFound": "*Error:* There is no such Tonik ID. Make sure you've typed it correctly",
     "errorWrongLink": "*Error:* Your Domain Offer Link must be as in example - https:\u200B//search\u200B.hmsota\u200B.com/c/UNIQUE-CODE",
+    "errorWrongOfferLink": "*Error:* Your Offer Link must be as in example - https:\u200B//bertio\u200B.com/article/sample-text",
     "errorSelectBranch": "You don't need to type anything\nJust choose Branch from below:",
     "errorCampaignTextLenght": "*Error:* Your *Campaign Text* is more than 65 characters long",
     "errorSelectTeam": "You don't need to type anything\nJust choose Team from below:",
@@ -138,7 +169,9 @@
     "cpcTaboola": "?subid1={token5}&subid2={token1}&subid3={token6}&site={token1}&siteid={token2}&adtitle={token3}&subid4={clickid}&network=taboola",
     "domainTaboola": "?title={token3}&campaign={token5}&site={token1}&siteid={token2}&tg1={token5}&tg2={token1}&tg3={token6}&tg4={clickid}&src=t",
     "domainOut": "?adid={token2}&cat={token8}&pub={token7}&pubid={token11}&secid={token12}&tg1={token10}&tg2={token11}&tg3={token1}&tg4={clickid}&tg5={token12}&src=ob",
-    "dsp": "&site={referer}&subid4={clickid}&network=mgid&siteid={widget_id}&subid1={token1}|{token7}"
+    "dsp": "&site={referer}&subid4={clickid}&network=mgid&siteid={widget_id}&subid1={token1}|{token7}",
+    "inuvoMgid": "?utm_content={token8}&placement={token10}&subid1={token3}&subid2={token11}&subid3={token1}&subid4={clickid}&camp_id=",
+    "inuvoRev": "?utm_content={token5}&placement={token6}&subid1={token2}&subid2={token4}&subid3={token3}&subid4={clickid}&camp_id="
   },
   "forbiddenWords": {
     "Affordable": "Affordable",
