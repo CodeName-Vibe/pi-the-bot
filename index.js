@@ -12,11 +12,11 @@ app.use([routes]);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT} | 04.21 Inuvo update`);
 });
 
-// const token = '7106816891:AAHc5MKlu10ph-rrKL27n1_QXp0UVbaH0oI'; // prod
-const token = '6640526394:AAG91IJQZL-wdJWDiVVsI2ygl5YybEFphME'; // test
+const token = '7106816891:AAHc5MKlu10ph-rrKL27n1_QXp0UVbaH0oI'; // prod
+// const token = '6640526394:AAG91IJQZL-wdJWDiVVsI2ygl5YybEFphME'; // test
 
 const bot = new TelegramBot(token, {polling: true});
 const botManager = new BotManager(bot);
