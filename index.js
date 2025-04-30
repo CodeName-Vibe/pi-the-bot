@@ -12,7 +12,7 @@ app.use([routes]);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT} | 04.21 Inuvo update`);
+  console.log(`Server is running on port ${PORT} | 04.21 Tonik AFD & RSOC update`);
 });
 
 const token = '7106816891:AAHc5MKlu10ph-rrKL27n1_QXp0UVbaH0oI'; // prod
@@ -32,6 +32,8 @@ bot.on('message', (msg) => {
         botManager.responseInstruction(msg);
       } else if (msg.text == "/create") {
         userManager.setOnRework(msg.from.id, 0);
+        userManager.setOfferLink(msg.from.id, 'clear');
+        userManager.setOffersCPC(msg.from.id, 'clear');
         userManager.setStep(msg.from.id, 1);
         bot.sendMessage(msg.chat.id, statics.content.getNetwork, statics.keyboard.network)
       } else if (userManager.getStep(msg.from.id) == 1) {
@@ -65,9 +67,9 @@ bot.on('message', (msg) => {
       } else if (userManager.getStep(msg.from.id) == 7) {
         bot.sendMessage(msg.chat.id, statics.content.errorSelectTeam, statics.keyboard.team);
       } else if (userManager.getStep(msg.from.id) == 8) {
-        if (userManager.getBranch(msg.from.id) == "CPC" && userManager.getNetwork(msg.from.id) == "Tonik") {
+        if (userManager.getBranch(msg.from.id) == "CPC" && userManager.getNetwork(msg.from.id) == "Tonik0") {
           bot.sendMessage(msg.chat.id, statics.content.errorSelectTraffic, statics.keyboard.trafficCPC);
-        } else if (userManager.getBranch(msg.from.id) == "DSP" && userManager.getNetwork(msg.from.id) == "Tonik") {
+        } else if (userManager.getBranch(msg.from.id) == "DSP" && userManager.getNetwork(msg.from.id) == "Tonik0") {
           bot.sendMessage(msg.chat.id, statics.content.errorSelectTraffic, statics.keyboard.trafficDSP);
         } else if (userManager.getNetwork(msg.from.id) == "Domain") {
           bot.sendMessage(msg.chat.id, statics.content.errorSelectTraffic, statics.keyboard.trafficDomain);
@@ -81,9 +83,9 @@ bot.on('message', (msg) => {
           botManager.responceGeo(msg, 0);
         }
       } else if (userManager.getStep(msg.from.id) == 10) {
-        if (userManager.getBranch(msg.from.id) == "CPC" && userManager.getNetwork(msg.from.id) == "Tonik") {
+        if (userManager.getBranch(msg.from.id) == "CPC" && userManager.getNetwork(msg.from.id) == "Tonik0") {
           bot.sendMessage(msg.chat.id, statics.content.errorSelectChange, statics.keyboard.changeCPC);
-        } else if (userManager.getBranch(msg.from.id) == "DSP" && userManager.getNetwork(msg.from.id) == "Tonik") {
+        } else if (userManager.getBranch(msg.from.id) == "DSP" && userManager.getNetwork(msg.from.id) == "Tonik0") {
           bot.sendMessage(msg.chat.id, statics.content.errorSelectChange, statics.keyboard.changeDSP);
         } else if (userManager.getNetwork(msg.from.id) == "Domain") {
           bot.sendMessage(msg.chat.id, statics.content.errorSelectChange, statics.keyboard.changeDomain);
@@ -110,15 +112,19 @@ bot.on('message', (msg) => {
 bot.on('callback_query', (query) => {
   if (!userManager.getUser(query.from.id)) {
     bot.sendMessage(query.message.chat.id, statics.content.errorNotStarted, {parse_mode: 'Markdown'})
-  } else if ((query.data == "Tonik" || query.data == "Domain" || query.data == "Inuvo") && userManager.getStep(query.from.id) == "1") {
+  } else if ((query.data == "Tonik0" || query.data == "Tonik1" || query.data == "Domain" || query.data == "Inuvo") && userManager.getStep(query.from.id) == "1") {
     botManager.responceNetwork(query)
-  } else if (((query.data == "CPC" && userManager.getNetwork(query.from.id) == "Tonik") || (query.data == "DSP" && userManager.getNetwork(query.from.id) == "Tonik")) && userManager.getStep(query.from.id) == "5") {
+  } else if (((query.data == "CPC" && (userManager.getNetwork(query.from.id) == "Tonik0" || userManager.getNetwork(query.from.id) == "Tonik1")) || (query.data == "DSP" && (userManager.getNetwork(query.from.id) == "Tonik0" || userManager.getNetwork(query.from.id) == "Tonik1"))) && userManager.getStep(query.from.id) == "5") {
     botManager.responseBranch(query)
   } else if (userManager.getStep(query.from.id) == "7" && (query.data == "VladMgidDSP" || query.data == "StapMgidDSP" || query.data == "MgidDSP")) {
     botManager.responseTeam(query, userManager.getOnRework(query.from.id))
-  } else if ((userManager.getBranch(query.from.id) == "CPC" && userManager.getNetwork(query.from.id) == "Tonik") && userManager.getStep(query.from.id) == "8" && (query.data == "Outbrain" || query.data == "Mgid" || query.data == "Revcontent" || query.data == "Taboola")) {
+  } else if ((userManager.getBranch(query.from.id) == "CPC" && userManager.getNetwork(query.from.id) == "Tonik0") && userManager.getStep(query.from.id) == "8" && (query.data == "Outbrain" || query.data == "Mgid" || query.data == "Revcontent" || query.data == "Taboola")) {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
-  } else if ((userManager.getBranch(query.from.id) == "DSP" && userManager.getNetwork(query.from.id) == "Tonik") && userManager.getStep(query.from.id) == "8" && (query.data == "10" || query.data == "15" || query.data == "20" || query.data == "25" || query.data == "30" || query.data == "35" || query.data == "40" || query.data == "45" || query.data == "50" || query.data == "55" || query.data == "60" || query.data == "65" || query.data == "70" || query.data == "75" || query.data == "80" || query.data == "Auto")) {
+  } else if ((userManager.getBranch(query.from.id) == "DSP" && userManager.getNetwork(query.from.id) == "Tonik0") && userManager.getStep(query.from.id) == "8" && (query.data == "10" || query.data == "15" || query.data == "20" || query.data == "25" || query.data == "30" || query.data == "35" || query.data == "40" || query.data == "45" || query.data == "50" || query.data == "55" || query.data == "60" || query.data == "65" || query.data == "70" || query.data == "75" || query.data == "80" || query.data == "Auto")) {
+    botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
+  } else if ((userManager.getBranch(query.from.id) == "CPC" && userManager.getNetwork(query.from.id) == "Tonik1") && userManager.getStep(query.from.id) == "8" && query.data == "Mgid") {
+    botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
+  } else if ((userManager.getBranch(query.from.id) == "DSP" && userManager.getNetwork(query.from.id) == "Tonik1") && userManager.getStep(query.from.id) == "8" && (query.data == "10" || query.data == "15" || query.data == "20" || query.data == "25" || query.data == "30" || query.data == "35" || query.data == "40" || query.data == "45" || query.data == "50" || query.data == "55" || query.data == "60" || query.data == "65" || query.data == "70" || query.data == "75" || query.data == "80" || query.data == "Auto")) {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
   } else if (userManager.getNetwork(query.from.id) == "Domain" && userManager.getStep(query.from.id) == "8" && (query.data == "Outbrain" || query.data == "Taboola")) {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))

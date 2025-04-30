@@ -5,7 +5,7 @@ class UserManager{
     this.database = [];
 
     this.newUser = function(id) {
-        this.buffer = {
+      this.buffer = {
         step: 0,
         onRework: 0,
         id: id,
@@ -14,6 +14,8 @@ class UserManager{
           tonikID: '',
           campId: 0,
           offerLink: {},
+          offersCPC: {},
+          offersDSP: {},
           branch: '',
           campaignText: '',
           team: '',
@@ -74,6 +76,62 @@ class UserManager{
         } else {
           searchResult.userData.offerLink[offerLink] = offerLink;
         }
+      }
+    }
+
+    // this.setOffersCPC = function(id, offerLink) {
+    //   const searchResult = this.database.find(obj => obj.id === id);
+    //   if (offerLink == 'clear') {
+    //     searchResult.userData.offerLink = {};
+    //     return;
+    //   } else {
+    //     if (searchResult.userData.offerLink[offerLink]) {
+    //       delete searchResult.userData.offerLink[offerLink];
+    //     } else {
+    //       searchResult.userData.offerLink[offerLink] = offerLink;
+    //     }
+    //   }
+    // }
+    this.setOffersCPC = function(id, tonikID, offerName, geo, trackingLink) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      if (tonikID == 'clear') {
+        searchResult.userData.offersCPC = {};
+      } else {
+        if (searchResult.userData.offersCPC[tonikID]) {
+          delete searchResult.userData.offersCPC[tonikID];
+        } else {
+          searchResult.userData.offersCPC[tonikID] = {
+            tonikID: tonikID,
+            offerName: offerName,
+            geo: geo,
+            trackingLink: trackingLink
+          };
+        }
+      }
+    }
+
+    this.setOffersDataDSP = function(id, tonikID, offerName, geo, trackingLink) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      if (tonikID == 'clear') {
+        searchResult.userData.offersDSP = {};
+      } else {
+        if (!searchResult.userData.offersDSP[tonikID]) {
+          searchResult.userData.offersDSP[tonikID] = {
+            tonikID: tonikID,
+            offerName: offerName,
+            geo: geo,
+            trackingLink: trackingLink,
+            offerText: ''
+          };
+        }
+      }
+    }
+    this.setOffersTextDSP = function(id, tonikID, offerText) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      if (tonikID == 'delete') {
+        delete searchResult.userData.offersDSP[tonikID];
+      } else {
+        searchResult.userData.offersDSP[tonikID].offerText = offerText;
       }
     }
 
@@ -148,6 +206,20 @@ class UserManager{
     this.getOfferLink = function(id){
       const searchResult = this.database.find(obj => obj.id === id);
       return Object.values(searchResult.userData.offerLink);
+    }
+
+    this.getOffersCPC = function(id){
+      const searchResult = this.database.find(obj => obj.id === id);
+      return Object.values(searchResult.userData.offersCPC);
+    }
+
+    this.getOffersDSP = function(id){
+      const searchResult = this.database.find(obj => obj.id === id);
+      return Object.values(searchResult.userData.offersDSP);
+    }
+    this.getOfferDSP = function(id, tonikId){
+      const searchResult = this.database.find(obj => obj.id === id);
+      return searchResult.userData.offersDSP[tonikId]?? null;
     }
 
     this.getTrackingLink = function(id){

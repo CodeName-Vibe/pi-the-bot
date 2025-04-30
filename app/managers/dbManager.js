@@ -2,8 +2,20 @@ const axios = require("axios");
 const staticData = require('../staticData.json')
 
 class dbManager {
-  key = '58cb6833bc2651bb50eaf108e258e897db93f2fc24f21257ae61769d1065adef';
-  secret = 'c6b9761fef864106b87393872b3e4f35a6bfbe23df3554a0fa5b5a0f4a1ef963';
+  peerclickCredenrials = {
+    email: "evgenii.teliatnykov@mirs.com",
+    password: "L;7D+NXE%uHp#c6A"
+  };
+
+  afdCredentials = {
+    key: '58cb6833bc2651bb50eaf108e258e897db93f2fc24f21257ae61769d1065adef',
+    secret: 'c6b9761fef864106b87393872b3e4f35a6bfbe23df3554a0fa5b5a0f4a1ef963'
+  };
+
+  rsocCredentials = {
+    key: '8febc03b07a7ea3e274be1e6a05847aafbce75ebb1669a44eb268dbbb5e04ac4',
+    secret: 'e566bb2e9da2020322fbf3560615466d6f7d41df03c45c3550d44cb2e6739b9e'
+  };
 
   constructor() {
     console.log('db manager conected')
@@ -12,8 +24,8 @@ class dbManager {
   async getTonicInfo(tonicId){
     try {
       const authResponse = await axios.post('https://api.publisher.tonic.com/jwt/authenticate', {
-        consumer_key: this.key,
-        consumer_secret: this.secret
+        consumer_key: this.afdCredentials.key,
+        consumer_secret: this.afdCredentials.secret
       }, { headers: { 'Content-Type': 'application/json' } });
 
       const tonicInfoResponse = await axios.get(`https://api.publisher.tonic.com/privileged/v3/campaign/list?state=active&output=json`, {
@@ -29,7 +41,33 @@ class dbManager {
           needed = rk
         }
       });
-      console.log('Needed Tonic Found');
+      return needed;
+    } catch (error) {
+      console.error('Error:', error.message);
+      throw error;
+    }
+  }
+
+  async getTonicRSOCInfo(tonicId){
+    try {
+      const authResponse = await axios.post('https://api.publisher.tonic.com/jwt/authenticate', {
+        consumer_key: this.rsocCredentials.key,
+        consumer_secret: this.rsocCredentials.secret
+      }, { headers: { 'Content-Type': 'application/json' } });
+
+      const tonicInfoResponse = await axios.get(`https://api.publisher.tonic.com/privileged/v3/campaign/list?state=active&output=json`, {
+        headers: {
+          'Authorization': 'Bearer ' + authResponse.data.token,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      let needed = {}
+      tonicInfoResponse.data.forEach(rk => {
+        if(rk.id==tonicId){
+          needed = rk
+        }
+      });
       return needed;
     } catch (error) {
       console.error('Error:', error.message);
@@ -39,11 +77,7 @@ class dbManager {
 
   async createPeerclickOffer(data){
     let token = 'a'
-    const body = {
-      email: "evgenii.teliatnykov@mirs.com",
-      password: "L;7D+NXE%uHp#c6A"
-    };
-    await axios.post('https://api.peerclick.com/v1_1/auth/session',body).then(a=>{
+    await axios.post('https://api.peerclick.com/v1_1/auth/session',this.peerclickCredenrials).then(a=>{
       token = a.data.token
     }).catch(err=>{
       console.log(err.message)
@@ -167,6 +201,104 @@ class dbManager {
     return campSuc.campaign.url
   }
 
+  async createPeerclickOfferRsocCPC(data) {
+    let token = 'a'
+    await axios.post('https://api.peerclick.com/v1_1/auth/session',this.peerclickCredenrials).then(a=>{
+      token = a.data.token
+    }).catch(err=>{
+      console.log(err.message)
+      return false
+    })
+    let headers = {'api-token': token}
+    let tail = 'no_tail('
+    let ts = 0
+    switch (data.trafficSource) {
+      case 'MGID':
+        ts = 1
+        tail = staticData.tails.cpcRsocMgid;
+        break;
+    }
+    if(tail=='no_tail('){
+      return false
+    }else if(ts==0){
+      return false
+    }
+
+    let offers = [];
+    for (let offer of data.offersCPC) {
+      let offerBody = {
+        name: offer.offerName,
+        workspaceId: 1,
+        url: offer.trackingLink + tail,
+        country: {
+          code: offer.geo
+        },
+        affiliateNetwork: {
+          id: 1
+        },
+        payout: {
+          type: "AUTO",
+          value: null,
+          currency: "USD"
+        }
+      };
+
+      try {
+        let response = await axios.post('https://api.peerclick.com/v1_1/offer', offerBody, { headers });
+        let succ = response.data;
+
+        if (succ.description !== 'Success') {
+          console.log('Offer creation failed');
+          return false;
+        }
+
+        offers.push({ weight: 100, id: succ.offer.id });
+      } catch (err) {
+        console.log(err.message);
+        return false;
+      }
+    }
+
+    let cam = {
+      name: data.offerName,
+      workspaceId: 1,
+      trafficSource: ts,
+      costModel: {
+        type: "AUTO",
+        currency: "USD"
+      },
+      country: {
+        code: data.geo
+      },
+      domain: "track.jjstrack.com",
+      tags: [],
+      redirectTarget: {
+        destination: "PATH",
+        path: {
+          defaultPaths: [
+            {
+              weight: 100,
+              direct: 1,
+              offers: offers
+            }
+          ]
+        }
+      }
+    }
+    let campSuc = {}
+    await axios.post('https://api.peerclick.com/v1_1/campaign',cam,{headers}).then(a=>{
+      campSuc = a.data
+    }).catch(err=>{
+      console.log(err.response.data.description)
+      return false
+    })
+    if(campSuc.description!='Success'){
+      console.log('Campaign creation failed');
+      return false
+    }
+    return campSuc.campaign.url
+  }
+
   async createPeerclickOfferDSP(data){
     // data = { 
     //   offerName:str,
@@ -177,11 +309,7 @@ class dbManager {
     //   tonicId:str
     // } 
     let token = 'a'
-    const body = {
-      email: "evgenii.teliatnykov@mirs.com",
-      password: "L;7D+NXE%uHp#c6A"
-    };
-    await axios.post('https://api.peerclick.com/v1_1/auth/session',body).then(a=>{
+    await axios.post('https://api.peerclick.com/v1_1/auth/session',this.peerclickCredenrials).then(a=>{
       token = a.data.token
     }).catch(err=>{
       console.log(err.message)
@@ -442,11 +570,7 @@ class dbManager {
 
   async createPeerclickOfferDomain(data){
     let token = 'a'
-    const body = {
-      email: "evgenii.teliatnykov@mirs.com",
-      password: "L;7D+NXE%uHp#c6A"
-    };
-    await axios.post('https://api.peerclick.com/v1_1/auth/session',body).then(a=>{
+    await axios.post('https://api.peerclick.com/v1_1/auth/session',this.peerclickCredenrials).then(a=>{
       token = a.data.token
     }).catch(err=>{
       console.log(err.message)
@@ -549,11 +673,7 @@ class dbManager {
 
   async createPeerclickOfferInuvo(data){
     let token = 'a'
-    const body = {
-      email: "evgenii.teliatnykov@mirs.com",
-      password: "L;7D+NXE%uHp#c6A"
-    };
-    await axios.post('https://api.peerclick.com/v1_1/auth/session',body).then(a=>{
+    await axios.post('https://api.peerclick.com/v1_1/auth/session',this.peerclickCredenrials).then(a=>{
       token = a.data.token
     }).catch(err=>{
       console.log(err.message)

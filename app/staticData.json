@@ -3,9 +3,8 @@
     "network": {
       "reply_markup": {
         "inline_keyboard": [
-          [{"text": "Tonik", "callback_data": "Tonik"}],
-          [{"text": "Domain Active", "callback_data": "Domain"}],
-          [{"text": "Inuvo", "callback_data": "Inuvo"}]
+          [{"text": "Tonik AFD", "callback_data": "Tonik0"},{"text": "Domain Active", "callback_data": "Domain"}],
+          [{"text": "Tonik RSOC", "callback_data": "Tonik1"},{"text": "Inuvo", "callback_data": "Inuvo"}]
         ]
       }
     },
@@ -13,6 +12,13 @@
       "reply_markup": {
         "inline_keyboard": [
           [{"text": "CPC", "callback_data": "CPC"},{"text": "DSP", "callback_data": "DSP"}]
+        ]
+      }
+    },
+    "branchRSOC": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "CPC", "callback_data": "CPC"}]
         ]
       }
     },
@@ -31,6 +37,13 @@
         "inline_keyboard": [
           [{"text": "Revcontent", "callback_data": "Revcontent"},{"text": "Mgid", "callback_data": "Mgid"}],
           [{"text": "Outbrain", "callback_data": "Outbrain"},{"text": "Taboola", "callback_data": "Taboola"}]
+        ]
+      }
+    },
+    "trafficRSOC_CPC": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "Mgid", "callback_data": "Mgid"}]
         ]
       }
     },
@@ -84,6 +97,32 @@
         ]
       }
     },
+    "changeRSOC_DSP": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "Change Network", "callback_data": "1"}],
+          [{"text": "Change Tonik ID", "callback_data": "2"}],
+          [{"text": "Change Branch", "callback_data": "5"}],
+          [{"text": "Change Campaign Text", "callback_data": "6"}],
+          [{"text": "Change Team", "callback_data": "7"}],
+          [{"text": "Change Traffic Source", "callback_data": "8"}],
+          [{"text": "Ok", "callback_data": "11"}]
+        ]
+      }
+    },
+    "changeRSOC_CPC": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "Change Network", "callback_data": "1"}],
+          [{"text": "Change Campaign Name", "callback_data": "3"}],
+          [{"text": "Change Geo", "callback_data": "9"}],
+          [{"text": "Change Branch", "callback_data": "5"}],
+          [{"text": "Change Traffic Source", "callback_data": "8"}],
+          [{"text": "Change Offers ID", "callback_data": "2"}],
+          [{"text": "Ok", "callback_data": "11"}]
+        ]
+      }
+    },
     "changeDomain": {
       "reply_markup": {
         "inline_keyboard": [
@@ -125,13 +164,19 @@
     ],
     "getNetwork": "1. Please Choose Network:",
     "getTonikID": "2. Please Enter *Tonik Campaign ID*\n(it must be *6-7 digit number*)\n_example: 1234567_",
+    "getTonikIDRsoc": "6. Please Enter *Tonik Offer ID*\n(it must be *6-7 digit number*)\n_example: 1234567_",
+    "getTonikIDRsocAgain": "If you want to add or delete *Offer* - enter it's *ID*\nIf you want to finish - type /finish",
     "getName": "2. Please Enter <b>Offer Name</b>\n<i>example: Nickname - Offer_GEO</i>",
     "getLink": "3. Please Enter *Domain Offer Link*\n_example: https:\u200B//search\u200B.hmsota\u200B.com/c/UNIQUE-CODE_",
     "getBranch": "3. Please Choose Branch:",
+    "getBranchRSOC": "4. Please Choose Branch:",
     "getCampaignText": "4. Please Enter <b>Campaign Text</b>\n<i>example: That's How Psoriasis Treatment Works</i>",
+    "getCampaignTextRSOC": "5. Please Enter <b>Campaign Text</b>\n<i>example: That's How Psoriasis Treatment Works</i>",
     "getTeam": "5. Please Choose Team:",
     "getTrafficDSP": "6. Please Choose Traffic Source:",
     "getTrafficCPC": "4. Please Choose Traffic Source:",
+    "getTrafficRSOC_DSP": "7. Please Choose Traffic Source:",
+    "getTrafficRSOC_CPC": "5. Please Choose Traffic Source:",
     "getTrafficDomain": "4. Please Choose Traffic Source:",
     "getTrafficInuvo": "4. Please Choose Traffic Source:",
     "getGeoDomain": "5. Please Enter *Geo*\n(it must be *2 characters text*)\n_example: US_",
@@ -163,6 +208,7 @@
     "errorForbiddenWords": "*Error:* You have *Forbidden Word*: "
   },
   "tails": {
+    "cpcRsocMgid": "?adtitle={token8}&site={token10}&subid1={token3}&subid2={token2}|{token11}&subid3={token1}&subid4={clickid}&siteid={token2}&network=mgid",
     "cpcMgid": "?adtitle={token8}&site={token10}&subid1={token3}&subid2={token2}&subid3={token1}&subid4={clickid}&siteid={token2}&network=mgid",
     "cpcRev": "?adtitle={token5}&site={referer}&subid1={token2}&subid2={token4}&subid3={token3}&subid4={clickid}&siteid={token4}&network=revcontent",
     "cpcOut": "?adtitle={token2}&subid1={token10}|{token11}|{token1}|{token12}&site={token7}_{token8}&subid4={clickid}&siteid={token12}&network=outbrain",

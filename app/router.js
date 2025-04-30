@@ -27,12 +27,39 @@ router.post('/ApiManager/get-tonik-info',async(req, res)=>{
 //    tokinLink:str,
 //    offerName:str,
 //    geo:str
+// }
+
+router.post('/ApiManager/get-tonik-rsoc-info',async(req, res)=>{
+  const tonicInfo = await dbManager.getTonicRSOCInfo(req.body.tonikIDd)
+  if(tonicInfo.link&&tonicInfo.offer&&tonicInfo.country){
+    res.status(200).send({
+      ok:true,
+      tonikLink:tonicInfo.direct_link,
+      offerName:req.body.tonikIDd+" - "+tonicInfo.name,
+      geo:tonicInfo.country
+    })
+  }else{
+    res.status(200).send({
+      ok:false
+    })
+  }
+})
+// /get-tonik-info  //API
+// req: 
+// { 
+//    tonikIDd:str
 // } 
+// res: 
+// {
+//    tokinLink:str,
+//    offerName:str,
+//    geo:str
+// }
 
 router.post('/ApiManager/create-link',async(req, res)=>{
   const peerOffer = await dbManager.createPeerclickOffer(req.body)
   if(peerOffer){
-    console.log('CPC Tracking link created');
+    console.log('CPC AFD Tracking link created');
     res.status(200).send({
       ok:true,
       peerclickLink: "https"+peerOffer.split('http')[1]
@@ -56,10 +83,37 @@ router.post('/ApiManager/create-link',async(req, res)=>{
 //    peerclickLink:str
 // }
 
+router.post('/ApiManager/create-link-rsoc',async(req, res)=>{
+  const peerOffer = await dbManager.createPeerclickOfferRsocCPC(req.body)
+  if(peerOffer){
+    console.log('CPC RSOC Tracking link created');
+    res.status(200).send({
+      ok:true,
+      peerclickLink: "https"+peerOffer.split('http')[1]
+    })
+  }else{
+    res.status(200).send({
+      ok:false,
+    })
+  }
+})
+// /create-link-rsoc  //API
+// req: 
+// { 
+//    offerName:str,
+//    geo:str,
+//    trafficSource:str,
+//    offersCPC:array<{offerName:str, offerLink:str, geo:str}>,
+// } 
+// res: 
+// { 
+//    peerclickLink:str
+// }
+
 router.post('/ApiManager/create-link-dsp',async(req, res)=>{
   const peerOffer = await dbManager.createPeerclickOfferDSP(req.body)
   if(peerOffer){
-    console.log('DSP Tracking link created');
+    console.log('DSP AFD Tracking link created');
     res.status(200).send({
       ok:true,
       peerclickLink: "https"+peerOffer.split('http')[1]
