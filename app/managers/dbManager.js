@@ -226,12 +226,13 @@ class dbManager {
 
     let offers = [];
     for (let offer of data.offersCPC) {
+      let geo = offer.geo == 'WO' ? 'GLB' : offer.geo;
       let offerBody = {
         name: offer.offerName,
         workspaceId: 1,
         url: offer.trackingLink + tail,
         country: {
-          code: offer.geo
+          code: geo
         },
         affiliateNetwork: {
           id: 1
@@ -242,7 +243,7 @@ class dbManager {
           currency: "USD"
         }
       };
-
+      
       try {
         let response = await axios.post('https://api.peerclick.com/v1_1/offer', offerBody, { headers });
         let succ = response.data;
@@ -259,6 +260,7 @@ class dbManager {
       }
     }
 
+    let geo = data.geo == 'WO' ? 'GLB' : data.geo;
     let cam = {
       name: data.offerName,
       workspaceId: 1,
@@ -268,7 +270,7 @@ class dbManager {
         currency: "USD"
       },
       country: {
-        code: data.geo
+        code: geo
       },
       domain: "track.jjstrack.com",
       tags: [],
