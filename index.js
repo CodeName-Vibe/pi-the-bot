@@ -12,7 +12,7 @@ app.use([routes]);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT} | 05.14 Tonik RSOC GLB (WO) Geo added`);
+  console.log(`Server is running on port ${PORT} | 05.14 Tonik RSOC GLB (WO) Geo added & Taboola CPC`);
 });
 
 const token = '7106816891:AAHc5MKlu10ph-rrKL27n1_QXp0UVbaH0oI'; // prod
@@ -122,7 +122,7 @@ bot.on('callback_query', (query) => {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
   } else if ((userManager.getBranch(query.from.id) == "DSP" && userManager.getNetwork(query.from.id) == "Tonik0") && userManager.getStep(query.from.id) == "8" && (query.data == "10" || query.data == "15" || query.data == "20" || query.data == "25" || query.data == "30" || query.data == "35" || query.data == "40" || query.data == "45" || query.data == "50" || query.data == "55" || query.data == "60" || query.data == "65" || query.data == "70" || query.data == "75" || query.data == "80" || query.data == "Auto")) {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
-  } else if ((userManager.getBranch(query.from.id) == "CPC" && userManager.getNetwork(query.from.id) == "Tonik1") && userManager.getStep(query.from.id) == "8" && query.data == "Mgid") {
+  } else if ((userManager.getBranch(query.from.id) == "CPC" && userManager.getNetwork(query.from.id) == "Tonik1") && userManager.getStep(query.from.id) == "8" && (query.data == "Mgid" || query.data == "Taboola")) {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
   } else if ((userManager.getBranch(query.from.id) == "DSP" && userManager.getNetwork(query.from.id) == "Tonik1") && userManager.getStep(query.from.id) == "8" && (query.data == "10" || query.data == "15" || query.data == "20" || query.data == "25" || query.data == "30" || query.data == "35" || query.data == "40" || query.data == "45" || query.data == "50" || query.data == "55" || query.data == "60" || query.data == "65" || query.data == "70" || query.data == "75" || query.data == "80" || query.data == "Auto")) {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))

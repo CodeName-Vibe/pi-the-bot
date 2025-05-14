@@ -98,7 +98,10 @@ class ApiManager {
           let ts = ''
           if (trafficSource == "Mgid") {
             ts = 'MGID'
+          } else if (trafficSource == "Taboola") {
+            ts = 'TABOOLA'
           }
+
           let data = { 
             offerName: offerName,
             geo: geo,

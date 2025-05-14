@@ -217,6 +217,10 @@ class dbManager {
         ts = 1
         tail = staticData.tails.cpcRsocMgid;
         break;
+      case 'TABOOLA':
+        ts = 56
+        tail = staticData.tails.cpcRsocTaboola;
+        break;
     }
     if(tail=='no_tail('){
       return false
@@ -243,7 +247,7 @@ class dbManager {
           currency: "USD"
         }
       };
-      
+
       try {
         let response = await axios.post('https://api.peerclick.com/v1_1/offer', offerBody, { headers });
         let succ = response.data;
