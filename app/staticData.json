@@ -208,7 +208,7 @@
     "errorForbiddenWords": "*Error:* You have *Forbidden Word*: "
   },
   "tails": {
-    "cpcRsocMgid": "&adtitle={token8}&site={token10}&subid1={token3}&subid2={token2}|{token11}&subid3={token1}&subid4={clickid}&siteid={token2}&network=mgid",
+    "cpcRsocMgid": "&adtitle={token8}&subid1={token3}&subid2={token2}|{token11}&subid3={token1}&subid4={clickid}&siteid={token2}&network=mgid&site={token10_urlencode}",
     "cpcRsocTaboola": "&subid1={token5}&subid2={token1}&subid3={token6}&site={token1}&siteid={token2}&adtitle={token3}&subid4={clickid}&network=taboola",
     "cpcMgid": "?adtitle={token8}&site={token10}&subid1={token3}&subid2={token2}&subid3={token1}&subid4={clickid}&siteid={token2}&network=mgid",
     "cpcRev": "?adtitle={token5}&site={referer}&subid1={token2}&subid2={token4}&subid3={token3}&subid4={clickid}&siteid={token4}&network=revcontent",

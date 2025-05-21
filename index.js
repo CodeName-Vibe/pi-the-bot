@@ -12,7 +12,7 @@ app.use([routes]);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT} | 05.14 Tonik RSOC GLB (WO) Geo added & Taboola CPC`);
+  console.log(`Server is running on port ${PORT} | 05.21 Tonik RSOC MGID tail change`);
 });
 
 const token = '7106816891:AAHc5MKlu10ph-rrKL27n1_QXp0UVbaH0oI'; // prod
