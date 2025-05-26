@@ -8,8 +8,8 @@ class dbManager {
   };
 
   afdCredentials = {
-    key: '58cb6833bc2651bb50eaf108e258e897db93f2fc24f21257ae61769d1065adef',
-    secret: 'c6b9761fef864106b87393872b3e4f35a6bfbe23df3554a0fa5b5a0f4a1ef963'
+    key: '7af142ce33dc0306d155800050e4ef8ebdff2fdbcfab0ac51e05b013a8da5ac8',
+    secret: '2d6bb6233349ba251d4c7cc2cbcf73b2ef1d6c10c50293abe8d1e701719fc30f'
   };
 
   rsocCredentials = {
