@@ -15,16 +15,6 @@ class BotManager{
     this.bot.sendMessage(msg.chat.id, statics.content.errorNotActive, {parse_mode: 'Markdown'})
   }
 
-  responseInstruction(msg) {
-    userManager.setOnRework(msg.from.id, 0);
-    userManager.setStep(msg.from.id, 0);
-    for (let i in statics.content.getInstruction) {
-      setTimeout(() => {
-        this.bot.sendMessage(msg.chat.id, statics.content.getInstruction[i], {parse_mode: 'Markdown'})
-      }, i * 150);
-    }
-  }
-
   responceNetwork(selection) {
     userManager.setOnRework(selection.from.id, 0)
     userManager.setNetwork(selection.from.id, selection.data)

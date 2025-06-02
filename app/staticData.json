@@ -160,16 +160,6 @@
   "APIUrl":"http://0.0.0.0:",
   "content": {
     "getReport": "*Report bug if you found one:*\nTelegram - @V5669626573",
-    "getInstruction": [
-      "*Step 1*\nEnter */create* to start creation of *Peerclick Link*",
-      "*Step 2*\nEnter *Tonik ID*. It's *6-7 digit number* infront of *Tonik Campaign Name*\n_For example:\nin [1234567 - woody - Cremation-US] Tonik ID is [1234567]_",
-      "*Step 3*\nChoose *Branch*: *CPC or DSP*\n_More about branches you can learn from your HR_",
-      "*Step 4*\nEnter *Campaign Text*",
-      "*Step 5*\nThen choose *Team*\n_If you chose *CPC* - you will skip steps 4-5_",
-      "*Step 6*\nChoose *Traffic Source*:\nIf you chose *DSP* - choose *Traffic Source* closest to *Tonik's CPC*\nIf you chose *CPC* - choose *Traffic Source* you are working with: *Revcontent, Mgid, Outbrain or Taboola*",
-      "*Step 7*\nReinsure that all info you provided is correct\nIf something is wrong - choose the button with info you want to change\nIf everything is correct - choose the button with *Ok* on it",
-      "Then after 1-2 minutes I will provide you with freshly created *Peerclick Link*. You can repeat this cycle for eternity\n_P.S. If you started Peerclick Link creation - it was reseted_"
-    ],
     "getNetwork": "1. Please Choose Network:",
     "getTonikID": "2. Please Enter *Tonik Campaign ID*\n(it must be *6-7 digit number*)\n_example: 1234567_",
     "getTonikIDRsoc": ". Please Enter *Tonik Offer ID*\n(it must be *6-7 digit number*)\n_example: 1234567_",
@@ -198,7 +188,7 @@
     "responceInputDone": "Now let me do my magic\nIt can take up to minute.",
     "errorNotString": "*Error:* wrong text type.",
     "errorSelectNetwork": "You don't need to type anything\nJust choose Network from below:",
-    "errorNotActive": "Hello, I am *π the PeerClick bot*. I will help you in creation of *Peerclick link*\nEnter */create* to start link creation\nor\nEnter */help* for instruction",
+    "errorNotActive": "Hello, I am *π the PeerClick bot*. I will help you in creation of *Peerclick link*\nEnter */create* to start link creation",
     "errorIDLenght": "*Error:* Tonik ID must be *6-7 digit* number",
     "errorTonikIDNotNumber": "*Error:* Tonik ID must be *number*",
     "errorCampIDNotNumber": "*Error:* Camp ID must be *number*",

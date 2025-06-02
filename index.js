@@ -15,8 +15,8 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT} | 06.02.25 Tonik RSOC DSP`);
 });
 
-const token = '7106816891:AAHc5MKlu10ph-rrKL27n1_QXp0UVbaH0oI'; // prod
-// const token = '6640526394:AAG91IJQZL-wdJWDiVVsI2ygl5YybEFphME'; // test
+// const token = '7106816891:AAHc5MKlu10ph-rrKL27n1_QXp0UVbaH0oI'; // prod
+const token = '6640526394:AAG91IJQZL-wdJWDiVVsI2ygl5YybEFphME'; // test
 
 const bot = new TelegramBot(token, {polling: true});
 const botManager = new BotManager(bot);
@@ -28,8 +28,6 @@ bot.on('message', (msg) => {
     } else if(userManager.getUser(msg.from.id)) {
       if (msg.text == "/report") {
         bot.sendMessage(msg.chat.id, statics.content.getReport, {parse_mode: 'Markdown'})
-      } else if (msg.text == "/help") {
-        botManager.responseInstruction(msg);
       } else if (msg.text == "/create") {
         userManager.setOnRework(msg.from.id, 0);
         userManager.setOfferLink(msg.from.id, 'clear');
@@ -79,7 +77,19 @@ bot.on('message', (msg) => {
         if (userManager.getBranch(msg.from.id) == "CPC" && userManager.getNetwork(msg.from.id) == "Tonik0") {
           bot.sendMessage(msg.chat.id, statics.content.errorSelectTraffic, statics.keyboard.trafficCPC);
         } else if (userManager.getBranch(msg.from.id) == "DSP" && userManager.getNetwork(msg.from.id) == "Tonik0") {
-          bot.sendMessage(msg.chat.id, statics.content.errorSelectTraffic, statics.keyboard.trafficDSP);
+          if ((userManager.getTeam(msg.from.id) == 'DarkDSP') || (userManager.getTeam(msg.from.id) == 'LehaDSP') || (userManager.getTeam(msg.from.id) == 'YaanDSP')) {
+            bot.sendMessage(msg.chat.id, statics.content.errorSelectTraffic, statics.keyboard.trafficDSPAuto)
+          } else {
+            bot.sendMessage(msg.chat.id, statics.content.errorSelectTraffic, statics.keyboard.trafficDSP)
+          }
+        } else if (userManager.getBranch(msg.from.id) == "CPC" && userManager.getNetwork(msg.from.id) == "Tonik1") {
+          bot.sendMessage(msg.chat.id, statics.content.errorSelectTraffic, statics.keyboard.trafficRSOC_CPC)
+        } else if (userManager.getBranch(msg.from.id) == "DSP" && userManager.getNetwork(msg.from.id) == "Tonik1") {
+          if ((userManager.getTeam(msg.from.id) == 'DarkDSP') || (userManager.getTeam(msg.from.id) == 'LehaDSP') || (userManager.getTeam(msg.from.id) == 'YaanDSP')) {
+            bot.sendMessage(msg.chat.id, statics.content.errorSelectTraffic, statics.keyboard.trafficDSPAuto)
+          } else {
+            bot.sendMessage(msg.chat.id, statics.content.errorSelectTraffic, statics.keyboard.trafficDSP)
+          }
         } else if (userManager.getNetwork(msg.from.id) == "Domain") {
           bot.sendMessage(msg.chat.id, statics.content.errorSelectTraffic, statics.keyboard.trafficDomain);
         } else if (userManager.getNetwork(msg.from.id) == "Inuvo") {
@@ -96,6 +106,10 @@ bot.on('message', (msg) => {
           bot.sendMessage(msg.chat.id, statics.content.errorSelectChange, statics.keyboard.changeCPC);
         } else if (userManager.getBranch(msg.from.id) == "DSP" && userManager.getNetwork(msg.from.id) == "Tonik0") {
           bot.sendMessage(msg.chat.id, statics.content.errorSelectChange, statics.keyboard.changeDSP);
+        } else if (userManager.getBranch(msg.from.id) == "CPC" && userManager.getNetwork(msg.from.id) == "Tonik1") {
+          bot.sendMessage(msg.chat.id, statics.content.errorSelectChange, statics.keyboard.changeRSOC_CPC);
+        } else if (userManager.getBranch(msg.from.id) == "DSP" && userManager.getNetwork(msg.from.id) == "Tonik1") {
+          bot.sendMessage(msg.chat.id, statics.content.errorSelectChange, statics.keyboard.changeRSOC_DSP);
         } else if (userManager.getNetwork(msg.from.id) == "Domain") {
           bot.sendMessage(msg.chat.id, statics.content.errorSelectChange, statics.keyboard.changeDomain);
         }
