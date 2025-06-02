@@ -74,6 +74,12 @@ class ApiManager {
             ts = "v" + trafficSource
           } else if (team == "MgidDSP") {
             ts = "j" + trafficSource
+          } else if (team == "DarkDSP") {
+            ts = "d" + trafficSource
+          } else if (team == "LehaDSP") {
+            ts = "l" + trafficSource
+          } else if (team == "YaanDSP") {
+            ts = "y" + trafficSource
           }
           let data = { 
             offerName: offerName,
@@ -118,31 +124,35 @@ class ApiManager {
             return createLink.data
           }
         } else if (branch == "DSP") {
-          // let ts = "";
-          // if (team == "StapMgidDSP") {
-          //   ts = "s" + trafficSource
-          // } else if (team == "VladMgidDSP") {
-          //   ts = "v" + trafficSource
-          // } else if (team == "MgidDSP") {
-          //   ts = "j" + trafficSource
-          // }
-          // let data = { 
-          //   offerName: offerName,
-          //   geo: geo,
-          //   tonicLink: tonikLink,
-          //   trafficSource: ts,
-          //   campaignText: campaignText,
-          //   tonicId:tonicId
-          // }
-          // let createLink = await axios.post(staticData.APIUrl+PORT+'/ApiManager/create-link-dsp',data).catch(err=>{
-          //   console.log(err)
-          //   return false
-          // })
-          // if (!createLink.data.ok) {
-          //   return false
-          // } else {
-          //   return createLink.data
-          // }
+          let ts = "";
+          if (team == "StapMgidDSP") {
+            ts = "s" + trafficSource
+          } else if (team == "VladMgidDSP") {
+            ts = "v" + trafficSource
+          } else if (team == "MgidDSP") {
+            ts = "j" + trafficSource
+          } else if (team == "DarkDSP") {
+            ts = "d" + trafficSource
+          } else if (team == "LehaDSP") {
+            ts = "l" + trafficSource
+          } else if (team == "YaanDSP") {
+            ts = "y" + trafficSource
+          }
+          let data = { 
+            offerName: offerName,
+            geo: geo,
+            trafficSource: ts,
+            offersDSP: offersDSP
+          }
+          let createLink = await axios.post(staticData.APIUrl+PORT+'/ApiManager/create-link-rsoc-dsp',data).catch(err=>{
+            console.log(err)
+            return false
+          })
+          if (!createLink.data.ok) {
+            return false
+          } else {
+            return createLink.data
+          }
         }
       } else if (network == "Domain") {
         let ts = ''

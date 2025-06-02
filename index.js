@@ -12,7 +12,7 @@ app.use([routes]);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT} | 05.21 Tonik RSOC MGID tail change`);
+  console.log(`Server is running on port ${PORT} | 06.02.25 Tonik RSOC DSP`);
 });
 
 const token = '7106816891:AAHc5MKlu10ph-rrKL27n1_QXp0UVbaH0oI'; // prod
@@ -34,6 +34,7 @@ bot.on('message', (msg) => {
         userManager.setOnRework(msg.from.id, 0);
         userManager.setOfferLink(msg.from.id, 'clear');
         userManager.setOffersCPC(msg.from.id, 'clear');
+        userManager.setOffersDataDSP(msg.from.id, 'clear');
         userManager.setStep(msg.from.id, 1);
         bot.sendMessage(msg.chat.id, statics.content.getNetwork, statics.keyboard.network)
       } else if (userManager.getStep(msg.from.id) == 1) {
@@ -59,10 +60,18 @@ bot.on('message', (msg) => {
       } else if (userManager.getStep(msg.from.id) == 5) {
         bot.sendMessage(msg.chat.id, statics.content.errorSelectBranch, statics.keyboard.branch);
       } else if (userManager.getStep(msg.from.id) == 6) {
-        if (userManager.getOnRework(msg.from.id) == 1) {
-          botManager.responseCampaignText(msg, 1);
+        if (userManager.getNetwork(msg.from.id) == "Tonik1") {
+          if (userManager.getOnRework(msg.from.id) == 1) {
+            botManager.responseCampaignText(msg, 1, userManager.getCurrentOfferID(msg.from.id));
+          } else {
+            botManager.responseCampaignText(msg, 0, userManager.getCurrentOfferID(msg.from.id));
+          }
         } else {
-          botManager.responseCampaignText(msg, 0);
+          if (userManager.getOnRework(msg.from.id) == 1) {
+            botManager.responseCampaignText(msg, 1);
+          } else {
+            botManager.responseCampaignText(msg, 0);
+          }
         }
       } else if (userManager.getStep(msg.from.id) == 7) {
         bot.sendMessage(msg.chat.id, statics.content.errorSelectTeam, statics.keyboard.team);
@@ -116,7 +125,7 @@ bot.on('callback_query', (query) => {
     botManager.responceNetwork(query)
   } else if (((query.data == "CPC" && (userManager.getNetwork(query.from.id) == "Tonik0" || userManager.getNetwork(query.from.id) == "Tonik1")) || (query.data == "DSP" && (userManager.getNetwork(query.from.id) == "Tonik0" || userManager.getNetwork(query.from.id) == "Tonik1"))) && userManager.getStep(query.from.id) == "5") {
     botManager.responseBranch(query)
-  } else if (userManager.getStep(query.from.id) == "7" && (query.data == "VladMgidDSP" || query.data == "StapMgidDSP" || query.data == "MgidDSP")) {
+  } else if (userManager.getStep(query.from.id) == "7" && (query.data == "VladMgidDSP" || query.data == "StapMgidDSP" || query.data == "MgidDSP" || query.data == "DarkDSP" || query.data == "LehaDSP" || query.data == "YaanDSP")) {
     botManager.responseTeam(query, userManager.getOnRework(query.from.id))
   } else if ((userManager.getBranch(query.from.id) == "CPC" && userManager.getNetwork(query.from.id) == "Tonik0") && userManager.getStep(query.from.id) == "8" && (query.data == "Outbrain" || query.data == "Mgid" || query.data == "Revcontent" || query.data == "Taboola")) {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))

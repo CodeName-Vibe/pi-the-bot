@@ -103,7 +103,34 @@ router.post('/ApiManager/create-link-rsoc',async(req, res)=>{
 //    offerName:str,
 //    geo:str,
 //    trafficSource:str,
-//    offersCPC:array<{offerName:str, offerLink:str, geo:str}>,
+//    offersCPC:array<{tonikID:num, offerName:str, trackingLink:str, geo:str}>,
+// } 
+// res: 
+// { 
+//    peerclickLink:str
+// }
+
+router.post('/ApiManager/create-link-rsoc-dsp',async(req, res)=>{
+  const peerOffer = await dbManager.createPeerclickOfferRsocDSP(req.body)
+  if(peerOffer){
+    console.log('DSP RSOC Tracking link created');
+    res.status(200).send({
+      ok:true,
+      peerclickLink: "https"+peerOffer.split('http')[1]
+    })
+  }else{
+    res.status(200).send({
+      ok:false,
+    })
+  }
+})
+// /create-link-rsoc  //API
+// req: 
+// { 
+//    offerName:str,
+//    geo:str,
+//    trafficSource:str,
+//    offersDSP:array<{tonikID:num, offerName:str, trackingLink:str, geo:str, offerText:str}>,
 // } 
 // res: 
 // { 

@@ -16,6 +16,7 @@ class UserManager{
           offerLink: {},
           offersCPC: {},
           offersDSP: {},
+          currentOfferID: 0,
           branch: '',
           campaignText: '',
           team: '',
@@ -28,6 +29,7 @@ class UserManager{
         }
       }
       this.database.push(this.buffer);
+      console.log(this.database.length)
     };
 
     this.setStep = function(id, step) {
@@ -78,20 +80,7 @@ class UserManager{
         }
       }
     }
-
-    // this.setOffersCPC = function(id, offerLink) {
-    //   const searchResult = this.database.find(obj => obj.id === id);
-    //   if (offerLink == 'clear') {
-    //     searchResult.userData.offerLink = {};
-    //     return;
-    //   } else {
-    //     if (searchResult.userData.offerLink[offerLink]) {
-    //       delete searchResult.userData.offerLink[offerLink];
-    //     } else {
-    //       searchResult.userData.offerLink[offerLink] = offerLink;
-    //     }
-    //   }
-    // }
+    
     this.setOffersCPC = function(id, tonikID, offerName, geo, trackingLink) {
       const searchResult = this.database.find(obj => obj.id === id);
       if (tonikID == 'clear') {
@@ -128,11 +117,16 @@ class UserManager{
     }
     this.setOffersTextDSP = function(id, tonikID, offerText) {
       const searchResult = this.database.find(obj => obj.id === id);
-      if (tonikID == 'delete') {
+      if (offerText == '/delete') {
         delete searchResult.userData.offersDSP[tonikID];
       } else {
         searchResult.userData.offersDSP[tonikID].offerText = offerText;
       }
+    }
+
+    this.setCurrentOfferID = function(id, currentOfferID) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      searchResult.userData.currentOfferID = currentOfferID;
     }
 
     this.setAPI = function(id, tonikID, offerName, geo, trackingLink) {
@@ -220,6 +214,11 @@ class UserManager{
     this.getOfferDSP = function(id, tonikId){
       const searchResult = this.database.find(obj => obj.id === id);
       return searchResult.userData.offersDSP[tonikId]?? null;
+    }
+
+    this.getCurrentOfferID = function(id){
+      const searchResult = this.database.find(obj => obj.id === id);
+      return searchResult.userData.currentOfferID;
     }
 
     this.getTrackingLink = function(id){
