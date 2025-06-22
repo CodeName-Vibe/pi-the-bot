@@ -220,4 +220,33 @@ router.post('/ApiManager/create-link-inuvo',async(req, res)=>{
 //   peerclickLink:str
 // }
 
+router.post('/ApiManager/create-link-marmar',async(req, res)=>{
+  const peerOffer = await dbManager.createPeerclickOfferMarmar(req.body)
+  if(peerOffer){
+    console.log('MarMar Tracking link created');
+    res.status(200).send({
+      ok:true,
+      peerclickLink: "https"+peerOffer.split('http')[1]
+    })
+  }else{
+    res.status(200).send({
+      ok:false,
+    })
+  }
+})
+// /create-link-marmar
+// req: 
+// { 
+//   offerName:str,
+//   geo:str,
+//   trafficSource:str,
+//   headline:str,
+//   asid:str,
+//   terms:str
+// } 
+// res: 
+// { 
+//   peerclickLink:str
+// }
+
 module.exports = router

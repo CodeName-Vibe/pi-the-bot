@@ -1094,6 +1094,104 @@ class dbManager {
     }
     return campSuc.campaign.url.replace("&rc_uuid={rc_uuid}", "")
   }
+
+  async createPeerclickOfferMarmar(data){
+    let token = 'a'
+    await axios.post('https://api.peerclick.com/v1_1/auth/session',this.peerclickCredenrials).then(a=>{
+      token = a.data.token
+    }).catch(err=>{
+      console.log(err.message)
+      return false
+    })
+    let headers = {'api-token': token}
+    let pretail = 'no_pretail('
+    let ts = 0
+    switch (data.trafficSource) {
+      case 'NEWSBREAK':
+        ts = 69
+        pretail = staticData.tails.marmarNewsbreakPretail;
+        break;
+    }
+    if(pretail=='no_pretail('){
+      return false
+    }else if(ts==0){
+      return false
+    }
+    let offerBody = {
+      name: data.offerName,
+      workspaceId: 1,
+      url: pretail+'&pub='+data.trafficSource.toLowerCase()+'&locale='+data.geo+'&q='+data.headline+'&rac={token6}&asid='+data.asid+'&terms='+data.terms,
+      country: {
+        code: data.geo.split('_')[1]
+      },
+      affiliateNetwork: {
+        id: 12
+      },
+      payout: {
+        type: "AUTO",
+        value: null,
+        currency: "USD"
+      }
+    }
+    if(token=='a'){
+      console.log('Invalid token');
+      return false
+    }
+    let succ = {}
+    await axios.post('https://api.peerclick.com/v1_1/offer',offerBody,{headers}).then(a=>{
+      succ = a.data
+    }).catch(err=>{
+      console.log(err.message)
+      return false
+    })
+    if(succ.description!='Success'){
+      console.log('Offer creation failed');
+      return false
+    }
+    let cam = {
+      name: data.offerName,
+      workspaceId: 1,
+      trafficSource: ts,
+      costModel: {
+        type: "AUTO",
+        currency: "USD"
+      },
+      country: {
+        code: data.geo.split('_')[1]
+      },
+      domain: "track.jjstrack.com",
+      tags: [],
+      redirectTarget: {
+        destination: "PATH",
+        path: {
+          defaultPaths: [
+            {
+              weight: 100,
+              direct: 1,
+              offers: [
+                {
+                  weight: 100,
+                  id: succ.offer.id,
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+    let campSuc = {}
+    await axios.post('https://api.peerclick.com/v1_1/campaign',cam,{headers}).then(a=>{
+      campSuc = a.data
+    }).catch(err=>{
+      console.log(err.response.data.description)
+      return false
+    })
+    if(campSuc.description!='Success'){
+      console.log('Campaign creation failed');
+      return false
+    }
+    return campSuc.campaign.url
+  }
 }
 
 module.exports = new dbManager();

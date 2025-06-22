@@ -20,7 +20,10 @@ class UserManager{
           branch: '',
           campaignText: '',
           team: '',
-          trafficSource: ''
+          trafficSource: '',
+          headline: '',
+          asid: '',
+          terms: ''
         },
         apiData: {
           offerName: '',
@@ -156,6 +159,23 @@ class UserManager{
       const searchResult = this.database.find(obj => obj.id === id);
       searchResult.userData.trafficSource = trafficSource;
     }
+    
+    this.setHeadline = function(id, headline) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      searchResult.userData.headline = headline;
+    }
+
+    this.setAsid = function(id, asid) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      searchResult.userData.asid = asid;
+    }
+
+    this.setTerms = function(id, terms) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      searchResult.userData.terms = terms;
+    }
+
+
 
     this.getOnRework = function(id) {
       const searchResult = this.database.find(obj => obj.id === id);
@@ -244,6 +264,21 @@ class UserManager{
     this.getTrafficSource = function(id){
       const searchResult = this.database.find(obj => obj.id === id);
       return searchResult.userData.trafficSource;
+    }
+
+    this.getHeadline = function(id){
+      const searchResult = this.database.find(obj => obj.id === id);
+      return searchResult.userData.headline;
+    }
+
+    this.getAsid = function(id){
+      const searchResult = this.database.find(obj => obj.id === id);
+      return searchResult.userData.asid;
+    }
+
+    this.getTerms = function(id){
+      const searchResult = this.database.find(obj => obj.id === id);
+      return searchResult.userData.terms;
     }
   }
 }

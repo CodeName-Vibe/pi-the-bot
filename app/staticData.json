@@ -4,7 +4,8 @@
       "reply_markup": {
         "inline_keyboard": [
           [{"text": "Tonik AFD", "callback_data": "Tonik0"},{"text": "Domain Active", "callback_data": "Domain"}],
-          [{"text": "Tonik RSOC", "callback_data": "Tonik1"},{"text": "Inuvo", "callback_data": "Inuvo"}]
+          [{"text": "Tonik RSOC", "callback_data": "Tonik1"},{"text": "Inuvo", "callback_data": "Inuvo"}],
+          [{"text": "MarMar", "callback_data": "MarMar"}]
         ]
       }
     },
@@ -71,6 +72,13 @@
         ]
       }
     },
+    "trafficMarMar": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "NewsBreak", "callback_data": "NewsBreak"}]
+        ]
+      }
+    },
     "team": {
       "reply_markup": {
         "inline_keyboard": [
@@ -89,7 +97,7 @@
           [{"text": "Change Campaign Text", "callback_data": "6"}],
           [{"text": "Change Team", "callback_data": "7"}],
           [{"text": "Change Traffic Source", "callback_data": "8"}],
-          [{"text": "Ok", "callback_data": "11"}]
+          [{"text": "Create Peerclick Link", "callback_data": "11"}]
         ]
       }
     },
@@ -100,7 +108,7 @@
           [{"text": "Change Tonik ID", "callback_data": "2"}],
           [{"text": "Change Branch", "callback_data": "5"}],
           [{"text": "Change Traffic Source", "callback_data": "8"}],
-          [{"text": "Ok", "callback_data": "11"}]
+          [{"text": "Create Peerclick Link", "callback_data": "11"}]
         ]
       }
     },
@@ -114,7 +122,7 @@
           [{"text": "Change Team", "callback_data": "7"}],
           [{"text": "Change Traffic Source", "callback_data": "8"}],
           [{"text": "Change Offers", "callback_data": "2"}],
-          [{"text": "Ok", "callback_data": "11"}]
+          [{"text": "Create Peerclick Link", "callback_data": "11"}]
         ]
       }
     },
@@ -127,7 +135,7 @@
           [{"text": "Change Branch", "callback_data": "5"}],
           [{"text": "Change Traffic Source", "callback_data": "8"}],
           [{"text": "Change Offers ID", "callback_data": "2"}],
-          [{"text": "Ok", "callback_data": "11"}]
+          [{"text": "Create Peerclick Link", "callback_data": "11"}]
         ]
       }
     },
@@ -139,7 +147,7 @@
           [{"text": "Change Domain Offer Link", "callback_data": "4"}],
           [{"text": "Change Traffic Source", "callback_data": "8"}],
           [{"text": "Change Geo", "callback_data": "9"}],
-          [{"text": "Ok", "callback_data": "11"}]
+          [{"text": "Create Peerclick Link", "callback_data": "11"}]
         ]
       }
     },
@@ -152,7 +160,21 @@
           [{"text": "Change Traffic Source", "callback_data": "8"}],
           [{"text": "Change Camp ID", "callback_data": "12"}],
           [{"text": "Change Offer Links", "callback_data": "13"}],
-          [{"text": "Ok", "callback_data": "11"}]
+          [{"text": "Create Peerclick Link", "callback_data": "11"}]
+        ]
+      }
+    },
+    "changeMarMar": {
+      "reply_markup": {
+        "inline_keyboard": [
+          [{"text": "Change Network", "callback_data": "1"}],
+          [{"text": "Change Offer Name", "callback_data": "3"}],
+          [{"text": "Change Language_Geo", "callback_data": "9"}],
+          [{"text": "Change Traffic Source", "callback_data": "8"}],
+          [{"text": "Change Headline", "callback_data": "14"}],
+          [{"text": "Change asid", "callback_data": "15"}],
+          [{"text": "Change Terms", "callback_data": "16"}],
+          [{"text": "Create Peerclick Link", "callback_data": "11"}]
         ]
       }
     }
@@ -172,16 +194,17 @@
     "getCampaignTextRSOC": "7.2. Please Enter <b>Campaign Text</b>\n<i>example: That's How Psoriasis Treatment Works</i>\nIf you want to delete this offer - type /delete",
     "getCampaignTextRSOCChange": "7.2. Please Enter <b>Campaign Text</b> if you want to Change it\n<i>example: That's How Psoriasis Treatment Works</i>\nIf you want to delete this offer - type /delete",
     "getTeam": "5. Please Choose Team:",
-    "getTrafficDSP": "6. Please Choose Traffic Source:",
-    "getTrafficCPC": "4. Please Choose Traffic Source:",
-    "getTrafficRSOC_CPC": "5. Please Choose Traffic Source:",
-    "getTrafficDomain": "4. Please Choose Traffic Source:",
+    "getTraffic": ". Please Choose Traffic Source:",
     "getTrafficInuvo": "4. Please Choose Traffic Source:",
     "getGeoDomain": "5. Please Enter *Geo*\n(it must be *2 characters text*)\n_example: US_",
     "getGeoInuvo": "3. Please Enter *Geo*\n(it must be *2 characters text*)\n_example: US_",
+    "getGeoMarMar": "3. Please Enter <b>Language</b> and <b>Geo</b>\n(both must be <b>2 characters text</b> separated by <b>underscore</b>)\n<i>example: en_US</i>",
     "getCampId": "5. Please Enter *Camp ID*\n(it must be number)\n_example: 417655_",
     "getOfferLink": "6. Please Enter *Offer Link* to add one to your *Campaign*\n_example: https:\u200B//bertio\u200B.com/article/sample-text_",
     "getOfferLinkAgain": "If you want to add or delete <b>Offer</b> - enter it's link\nIf you want to finish - type /finish\n\n<b>Offer Links</b> you added:",
+    "getHeadline": "5. Please Enter <b>Headline</b> text:",
+    "getAsid": "6. Please Enter <b>asid</b>\n<i>example: a1_ch123</i>",
+    "getTerms": "7. Please Enter all <b>Terms</b> in one message separated by commas\n<i>example: Example Term,Term 2,Sample Text</i>",
     "getChanges": ". Please check if information you provided *is correct*:",
     "getChangesDomain": ". Please check if information you provided <b>is correct</b>:",
     "chooseChanges": "Select one:",
@@ -189,9 +212,9 @@
     "errorNotString": "*Error:* wrong text type.",
     "errorSelectNetwork": "You don't need to type anything\nJust choose Network from below:",
     "errorNotActive": "Hello, I am *π the PeerClick bot*. I will help you in creation of *Peerclick link*\nEnter */create* to start link creation",
-    "errorIDLenght": "*Error:* Tonik ID must be *6-7 digit* number",
-    "errorTonikIDNotNumber": "*Error:* Tonik ID must be *number*",
-    "errorCampIDNotNumber": "*Error:* Camp ID must be *number*",
+    "errorIDLenght": "*Error:* Tonik ID must be *6-7 Digit* number",
+    "errorTonikIDNotNumber": "*Error:* Tonik ID must be *Number*",
+    "errorCampIDNotNumber": "*Error:* Camp ID must be *Number*",
     "errorIDNotFound": "*Error:* There is no such Tonik ID. Make sure you've typed it correctly",
     "errorWrongLink": "*Error:* Your Domain Offer Link must be as in example - https:\u200B//search\u200B.hmsota\u200B.com/c/UNIQUE-CODE",
     "errorWrongOfferLink": "*Error:* Your Offer Link must be as in example - https:\u200B//bertio\u200B.com/article/sample-text",
@@ -199,8 +222,12 @@
     "errorCampaignTextLenght": "*Error:* Your *Campaign Text* is more than 65 characters long",
     "errorSelectTeam": "You don't need to type anything\nJust choose Team from below:",
     "errorSelectTraffic": "You don't need to type anything\nJust choose Traffic Source from below:",
-    "errorGeoLenght": "*Error:* Geo must be *2 characters* text",
-    "errorGeoNotText": "*Error:* Geo must be *text* without *spaces* and *numbers*",
+    "errorGeoLenght": "*Error:* Geo must be *2 Characters* text",
+    "errorGeoNotText": "*Error:* Geo must be *Text* without *Spaces* and *Numbers*",
+    "errorLangGeoLenght": "*Error:* Both Language and Geo must be *2 Characters* text separated by *Underscore*",
+    "errorLangGeoNotText": "*Error:* Language and Geo must be *Text* without *Spaces* and *Numbers*",
+    "errorLangGeoUnderscore": "*Error:* Language and Geo must be separated by *Underscore*",
+    "errorLangGeoUnderscoreLength": "*Error:* Language and Geo must be separated by *Only 1* underscore",
     "errorSelectChange": "You don't need to type anything\nJust choose option from below:",
     "errorNotStarted": "*Error:* You haven't started bot. Enter /start to begin.",
     "errorForbiddenWords": "*Error:* You have *Forbidden Word*: ",
@@ -217,7 +244,8 @@
     "domainOut": "?adid={token2}&cat={token8}&pub={token7}&pubid={token11}&secid={token12}&tg1={token10}&tg2={token11}&tg3={token1}&tg4={clickid}&tg5={token12}&src=ob",
     "dsp": "&site={referer}&subid4={clickid}&network=mgid&siteid={widget_id}&subid1={token1}|{token7}",
     "inuvoMgid": "?utm_content={token8}&placement={token10}&subid1={token3}&subid2={token11}&subid3={token1}&subid4={clickid}&camp_id=",
-    "inuvoRev": "?utm_content={token5}&placement={token6}&subid1={token2}&subid2={token4}&subid3={token3}&subid4={clickid}&camp_id="
+    "inuvoRev": "?utm_content={token5}&placement={token6}&subid1={token2}&subid2={token4}&subid3={token3}&subid4={clickid}&camp_id=",
+    "marmarNewsbreakPretail": "https://www.solveora.com/dsr?gclid={clickid}&tv=dark&de=m"
   },
   "forbiddenWords": {
     "Affordable": "Affordable",
