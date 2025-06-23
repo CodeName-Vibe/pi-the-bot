@@ -12,7 +12,7 @@ app.use([routes]);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT} | 06.23.25 MarMar RevContent`);
+  console.log(`Server is running on port ${PORT} | 06.22.25 MarMar`);
 });
 
 const token = '7106816891:AAHc5MKlu10ph-rrKL27n1_QXp0UVbaH0oI'; // prod
