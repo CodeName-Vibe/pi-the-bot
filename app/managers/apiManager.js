@@ -45,7 +45,7 @@ class ApiManager {
             ts = 'OUT'
           } else if (trafficSource == "Mgid") {
             ts = 'MGID'
-          } else if (trafficSource == "Revcontent") {
+          } else if (trafficSource == "RevContent") {
             ts = 'REV'
           } else if (trafficSource == "Taboola") {
             ts = 'TABOOLA'
@@ -207,6 +207,8 @@ class ApiManager {
         let ts = ''
         if (trafficSource == "NewsBreak") {
           ts = 'NEWSBREAK'
+        } else if (trafficSource == "RevContent") {
+          ts = 'REVCONTENT'
         }
         while (headline.includes(' ')) {
           headline = headline.replace(' ', '+');

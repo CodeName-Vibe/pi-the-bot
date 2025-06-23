@@ -12,7 +12,7 @@ app.use([routes]);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT} | 06.22.25 MarMar`);
+  console.log(`Server is running on port ${PORT} | 06.23.25 MarMar RevContent`);
 });
 
 const token = '7106816891:AAHc5MKlu10ph-rrKL27n1_QXp0UVbaH0oI'; // prod
@@ -159,7 +159,7 @@ bot.on('callback_query', (query) => {
     botManager.responseBranch(query)
   } else if (userManager.getStep(query.from.id) == "7" && (query.data == "VladMgidDSP" || query.data == "StapMgidDSP" || query.data == "MgidDSP" || query.data == "DarkDSP" || query.data == "LehaDSP" || query.data == "YaanDSP")) {
     botManager.responseTeam(query, userManager.getOnRework(query.from.id))
-  } else if ((userManager.getBranch(query.from.id) == "CPC" && userManager.getNetwork(query.from.id) == "Tonik0") && userManager.getStep(query.from.id) == "8" && (query.data == "Outbrain" || query.data == "Mgid" || query.data == "Revcontent" || query.data == "Taboola")) {
+  } else if ((userManager.getBranch(query.from.id) == "CPC" && userManager.getNetwork(query.from.id) == "Tonik0") && userManager.getStep(query.from.id) == "8" && (query.data == "Outbrain" || query.data == "Mgid" || query.data == "RevContent" || query.data == "Taboola")) {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
   } else if ((userManager.getBranch(query.from.id) == "DSP" && userManager.getNetwork(query.from.id) == "Tonik0") && userManager.getStep(query.from.id) == "8" && (query.data == "10" || query.data == "15" || query.data == "20" || query.data == "25" || query.data == "30" || query.data == "35" || query.data == "40" || query.data == "45" || query.data == "50" || query.data == "55" || query.data == "60" || query.data == "65" || query.data == "70" || query.data == "75" || query.data == "80" || query.data == "Auto")) {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
@@ -171,7 +171,7 @@ bot.on('callback_query', (query) => {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
   } else if (userManager.getNetwork(query.from.id) == "Inuvo" && userManager.getStep(query.from.id) == "8" && (query.data == "Mgid" || query.data == "Rev0" || query.data == "Rev1" || query.data == "Rev2")) {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
-  } else if (userManager.getNetwork(query.from.id) == "MarMar" && userManager.getStep(query.from.id) == "8" && (query.data == "NewsBreak")) {
+  } else if (userManager.getNetwork(query.from.id) == "MarMar" && userManager.getStep(query.from.id) == "8" && (query.data == "NewsBreak" || query.data == "RevContent")) {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
   } else if (userManager.getStep(query.from.id) == "10" && (query.data == "1" || query.data == "2" || query.data == "3" || query.data == "4" || query.data == "5" || query.data == "6" || query.data == "7" || query.data == "8" || query.data == "9" || query.data == "11" || query.data == "12" || query.data == "13" || query.data == "14" || query.data == "15" || query.data == "16")) {
     botManager.responseChange(query.data, query.message.chat.id, query.from.id)

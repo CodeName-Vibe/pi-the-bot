@@ -1104,15 +1104,19 @@ class dbManager {
       return false
     })
     let headers = {'api-token': token}
-    let pretail = 'no_pretail('
+    let urlLink = 'no_url('
     let ts = 0
     switch (data.trafficSource) {
       case 'NEWSBREAK':
         ts = 69
-        pretail = staticData.tails.marmarNewsbreakPretail;
+        urlLink = staticData.tails.marmarNewsbreakPretail+data.trafficSource.toLowerCase()+'&locale='+data.geo+'&q='+data.headline+'&rac={token6}&asid='+data.asid+'&terms='+data.terms;
+        break;
+      case 'REVCONTENT':
+        ts = 2
+        urlLink = staticData.tails.marmarRevcontentPretail+data.trafficSource.toLowerCase()+'&locale='+data.geo+'&q='+data.headline+'&rac={trackingField5}&asid='+data.asid+'&terms='+data.terms;
         break;
     }
-    if(pretail=='no_pretail('){
+    if(urlLink=='no_url('){
       return false
     }else if(ts==0){
       return false
@@ -1120,7 +1124,7 @@ class dbManager {
     let offerBody = {
       name: data.offerName,
       workspaceId: 1,
-      url: pretail+'&pub='+data.trafficSource.toLowerCase()+'&locale='+data.geo+'&q='+data.headline+'&rac={token6}&asid='+data.asid+'&terms='+data.terms,
+      url: urlLink,
       country: {
         code: data.geo.split('_')[1]
       },

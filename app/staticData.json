@@ -43,7 +43,7 @@
     "trafficCPC": {
       "reply_markup": {
         "inline_keyboard": [
-          [{"text": "Revcontent", "callback_data": "Revcontent"},{"text": "Mgid", "callback_data": "Mgid"}],
+          [{"text": "RevContent", "callback_data": "RevContent"},{"text": "Mgid", "callback_data": "Mgid"}],
           [{"text": "Outbrain", "callback_data": "Outbrain"},{"text": "Taboola", "callback_data": "Taboola"}]
         ]
       }
@@ -75,7 +75,8 @@
     "trafficMarMar": {
       "reply_markup": {
         "inline_keyboard": [
-          [{"text": "NewsBreak", "callback_data": "NewsBreak"}]
+          [{"text": "NewsBreak", "callback_data": "NewsBreak"}],
+          [{"text": "RevContent", "callback_data": "RevContent"}]
         ]
       }
     },
@@ -245,7 +246,8 @@
     "dsp": "&site={referer}&subid4={clickid}&network=mgid&siteid={widget_id}&subid1={token1}|{token7}",
     "inuvoMgid": "?utm_content={token8}&placement={token10}&subid1={token3}&subid2={token11}&subid3={token1}&subid4={clickid}&camp_id=",
     "inuvoRev": "?utm_content={token5}&placement={token6}&subid1={token2}&subid2={token4}&subid3={token3}&subid4={clickid}&camp_id=",
-    "marmarNewsbreakPretail": "https://www.solveora.com/dsr?gclid={clickid}&tv=dark&de=m"
+    "marmarNewsbreakPretail": "https://www.solveora.com/dsr?gclid={clickid}&tv=dark&de=m&pub=",
+    "marmarRevcontentPretail": "https://www.solveora.com/dsr?gclid={cf_click_id}&tv=dark&de=m&pub="
   },
   "forbiddenWords": {
     "Affordable": "Affordable",
