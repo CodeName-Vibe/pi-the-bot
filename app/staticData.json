@@ -261,7 +261,9 @@
     "getOperation": "1. Please choose Edit Operation you want to do with your PeerClick Campaign/Offer:",
     "getOfferID": "2. Please enter *Offer ID*\n_(it's located in leftmost part of PeerClick -> Offers)_",
     "errorSelectOperation": "You don't need to type anything\nJust choose Operation from below:",
-    "errorOfferIdNotNumber": "*Error:* Offer ID must be *Number*"
+    "errorOfferIdNotNumber": "*Error:* Offer ID must be *Number*",
+    "errorOfferIdNotFound": "*Error:* Offer ID not found",
+    "errorOfferIdNotMarMar": "*Error:* Offer ID *Affiliate Network* doesn't match *MarMar*"
   },
   "forbiddenWords": {
     "Affordable": "Affordable",

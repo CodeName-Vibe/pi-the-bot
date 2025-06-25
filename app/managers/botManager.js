@@ -644,8 +644,16 @@ class BotManager{
       if (rework) {
         this.responseChange("10", msg.chat.id, msg.from.id);
       } else {
-        userManager.setStep(msg.from.id, 103);
-        await apiManager.getPeerclickOffer(msg.from.id, msg.text);
+        if (await apiManager.getPeerclickOffer(msg.from.id, msg.text)) {
+          if (userManager.getOfferBody(msg.from.id).affiliateNetwork.id == 12) {
+            userManager.setStep(msg.from.id, 103);
+            this.bot.sendMessage(msg.chat.id, `<b>PeerClick Offer</b> Found\n\n`, {parse_mode: 'Markdown'})
+          } else {
+            this.bot.sendMessage(msg.chat.id, statics.editContent.errorOfferIdNotMarMar, {parse_mode: 'Markdown'})
+          }
+        } else {
+          this.bot.sendMessage(msg.chat.id, statics.editContent.errorOfferIdNotFound, {parse_mode: 'Markdown'})
+        }
       }
     } else {
       this.bot.sendMessage(msg.chat.id, statics.editContent.errorOfferIdNotNumber, {parse_mode: 'Markdown'})

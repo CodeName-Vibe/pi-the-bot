@@ -190,6 +190,11 @@ class UserManager{
       searchResult.editUserData.offerId = offerId;
     }
 
+    this.setOfferBody = function(id, offerBody) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      searchResult.apiData.offerBody = offerBody;
+    }
+
 
 
     this.getOnRework = function(id) {
@@ -304,6 +309,11 @@ class UserManager{
     this.getOfferId = function(id){
       const searchResult = this.database.find(obj => obj.id === id);
       return searchResult.editUserData.offerId;
+    }
+
+    this.getOfferBody = function(id){
+      const searchResult = this.database.find(obj => obj.id === id);
+      return searchResult.apiData.offerBody;
     }
   }
 }
