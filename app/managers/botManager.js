@@ -629,6 +629,28 @@ class BotManager{
       // this.bot.sendMessage(chat, stext)
     }, 200);
   }
+
+  responceOperation(selection) {
+    userManager.setOnRework(selection.from.id, 0);
+    userManager.setOperation(selection.from.id, selection.data);
+    if (selection.data == "MarMarOT") {
+      userManager.setStep(selection.from.id, 102);
+      this.bot.sendMessage(selection.message.chat.id, statics.editContent.getOfferID, {parse_mode: 'Markdown'})
+    }
+  }
+  async responceOfferId(msg, rework) {
+    if (parseInt(msg.text)) {
+      userManager.setOfferId(msg.chat.id, msg.text);
+      if (rework) {
+        this.responseChange("10", msg.chat.id, msg.from.id);
+      } else {
+        userManager.setStep(msg.from.id, 103);
+        await apiManager.getPeerclickOffer(msg.from.id, msg.text);
+      }
+    } else {
+      this.bot.sendMessage(msg.chat.id, statics.editContent.errorOfferIdNotNumber, {parse_mode: 'Markdown'})
+    }
+  }
 }
 
 module.exports = BotManager

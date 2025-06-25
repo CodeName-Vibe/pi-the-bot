@@ -236,6 +236,17 @@ class ApiManager {
       }
       // return "peerclick-link-for-test"
     }
+
+    this.getPeerclickOffer = async function(id, offerId) {
+      let offerBody = await axios.post(staticData.APIUrl+PORT+'/ApiManager/get-peerclick-offer',{offerId:offerId}).catch(err=>{console.log(err)})
+      console.log('offerBody')
+      console.log(offerBody.data)
+      if(offerBody.data.ok) {
+        // userManager.setOfferBody(id, offerBody.data.offer);
+        return true
+      }
+      return false
+    }
   }
 }
 

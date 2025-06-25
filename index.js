@@ -35,6 +35,13 @@ bot.on('message', (msg) => {
         userManager.setOffersDataDSP(msg.from.id, 'clear');
         userManager.setStep(msg.from.id, 1);
         bot.sendMessage(msg.chat.id, statics.content.getNetwork, statics.keyboard.network)
+      } else if (msg.text == "/edit") {
+        userManager.setOnRework(msg.from.id, 0);
+        userManager.setOfferLink(msg.from.id, 'clear');
+        userManager.setOffersCPC(msg.from.id, 'clear');
+        userManager.setOffersDataDSP(msg.from.id, 'clear');
+        userManager.setStep(msg.from.id, 101);
+        bot.sendMessage(msg.chat.id, statics.editContent.getOperation, statics.editKeyboard.operation)
       } else if (userManager.getStep(msg.from.id) == 1) {
         bot.sendMessage(msg.chat.id, statics.content.errorSelectNetwork, statics.keyboard.network);
       } else if (userManager.getStep(msg.from.id) == 2) {
@@ -139,6 +146,14 @@ bot.on('message', (msg) => {
         }
       } else if (userManager.getStep(msg.from.id) == 16) {
         botManager.responceTerms(msg);
+      } else if (userManager.getStep(msg.from.id) == 101) {
+        bot.sendMessage(msg.chat.id, statics.editContent.errorSelectOperation, statics.editKeyboard.operation);
+      } else if (userManager.getStep(msg.from.id) == 102) {
+        if (userManager.getOnRework(msg.from.id) == 1) {
+          botManager.responceOfferId(msg, 1);
+        } else {
+          botManager.responceOfferId(msg, 0);
+        }
       } else {
         bot.sendMessage(msg.chat.id, statics.content.errorNotActive, {parse_mode: 'Markdown'})
       }
@@ -175,5 +190,7 @@ bot.on('callback_query', (query) => {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
   } else if (userManager.getStep(query.from.id) == "10" && (query.data == "1" || query.data == "2" || query.data == "3" || query.data == "4" || query.data == "5" || query.data == "6" || query.data == "7" || query.data == "8" || query.data == "9" || query.data == "11" || query.data == "12" || query.data == "13" || query.data == "14" || query.data == "15" || query.data == "16")) {
     botManager.responseChange(query.data, query.message.chat.id, query.from.id)
+  } else if (userManager.getStep(query.from.id) == "101" && (query.data == "MarMarOT")) {
+    botManager.responceOperation(query)
   }
 });

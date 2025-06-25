@@ -1196,6 +1196,29 @@ class dbManager {
     }
     return campSuc.campaign.url
   }
+
+  async getPeerclickOffer(offerId){
+    let token = 'a';
+    await axios.post('https://api.peerclick.com/v1_1/auth/session',this.peerclickCredenrials).then(a=>{
+      token = a.data.token
+    }).catch(err=>{
+      console.log(err.message)
+      return false
+    })
+    let headers = {'api-token': token};
+    let offer = {};
+    await axios.get('https://api.peerclick.com/v1_1/offer/'+offerId,{headers}).then(a=>{
+      offer = a.data.offer;
+    }).catch(err=>{
+      console.log(err.message)
+      return false
+    })
+    if (offer) {
+      return offer;
+    } else {
+      return false
+    }
+  }
 }
 
 module.exports = new dbManager();

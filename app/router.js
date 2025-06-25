@@ -249,4 +249,28 @@ router.post('/ApiManager/create-link-marmar',async(req, res)=>{
 //   peerclickLink:str
 // }
 
+router.post('/ApiManager/get-peerclick-offer',async(req, res)=>{
+  const offerBody = await dbManager.getPeerclickOffer(req.body.offerId)
+  if(offerBody){
+    res.status(200).send({
+      ok:true,
+      offer: offerBody
+    })
+  }else{
+    res.status(200).send({
+      ok:false
+    })
+  }
+})
+// /get-peerclick-offer
+// req: 
+// { 
+//    offerId:number
+// } 
+// res: 
+// {
+//    ok: boolean,
+//    offer: {}
+// }
+
 module.exports = router

@@ -25,10 +25,15 @@ class UserManager{
           asid: '',
           terms: ''
         },
+        editUserData: {
+          operation: '',
+          offerId: 0
+        },
         apiData: {
           offerName: '',
           geo: '',
-          trackingLink: ''
+          trackingLink: '',
+          offerBody: {}
         }
       }
       this.database.push(this.buffer);
@@ -175,6 +180,16 @@ class UserManager{
       searchResult.userData.terms = terms;
     }
 
+    this.setOperation = function(id, operation) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      searchResult.editUserData.operation = operation;
+    }
+
+    this.setOfferId = function(id, offerId) {
+      const searchResult = this.database.find(obj => obj.id === id);
+      searchResult.editUserData.offerId = offerId;
+    }
+
 
 
     this.getOnRework = function(id) {
@@ -279,6 +294,16 @@ class UserManager{
     this.getTerms = function(id){
       const searchResult = this.database.find(obj => obj.id === id);
       return searchResult.userData.terms;
+    }
+
+    this.getOperation = function(id){
+      const searchResult = this.database.find(obj => obj.id === id);
+      return searchResult.editUserData.operation;
+    }
+
+    this.getOfferId = function(id){
+      const searchResult = this.database.find(obj => obj.id === id);
+      return searchResult.editUserData.offerId;
     }
   }
 }
