@@ -211,7 +211,7 @@
     "responceInputDone": "Now let me do my magic\nIt can take up to minute.",
     "errorNotString": "*Error:* wrong text type.",
     "errorSelectNetwork": "You don't need to type anything\nJust choose Network from below:",
-    "errorNotActive": "Hello, I am *π the PeerClick bot*. I will help you in creation of *Peerclick link*\nType */create* to start link creation\nOR\nType */edit* to edit already created offers",
+    "errorNotActive": "Hello, I am *π the PeerClick bot*. I will help you in creation of *Peerclick link*\nType */create* to start link creation",
     "errorIDLenght": "*Error:* Tonik ID must be *6-7 Digit* number",
     "errorTonikIDNotNumber": "*Error:* Tonik ID must be *Number*",
     "errorCampIDNotNumber": "*Error:* Camp ID must be *Number*",

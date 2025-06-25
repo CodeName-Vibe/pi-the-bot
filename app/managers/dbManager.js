@@ -13,8 +13,8 @@ class dbManager {
   };
 
   rsocCredentials = {
-    key: '38cff87ff8e88965cf5d3dfb6b630adf4579dcb6bcf6a476d94e3a835b8c98a3',
-    secret: '72a347a66568c5af3629fa74ad182e0ae030774021231950b4908b3e1c321585'
+    key: '8febc03b07a7ea3e274be1e6a05847aafbce75ebb1669a44eb268dbbb5e04ac4',
+    secret: 'e566bb2e9da2020322fbf3560615466d6f7d41df03c45c3550d44cb2e6739b9e'
   };
 
   constructor() {
