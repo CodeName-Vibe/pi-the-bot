@@ -2,6 +2,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const BotManager = require('./app/managers/botManager');
 const userManager = require('./app/managers/userManager');
 const statics = require('./app/staticData.json');
+const tokenData = require('./app/tokenData.json');
 const express = require('express');
 const routes = require('./app/router');
 
@@ -12,11 +13,11 @@ app.use([routes]);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT} | 06.20.25 MarMar`);
+  console.log(`Server is running on port ${PORT} | 06.30.25 MarMar edit offer terms`);
 });
 
-const token = '7106816891:AAHc5MKlu10ph-rrKL27n1_QXp0UVbaH0oI'; // prod
-// const token = '6640526394:AAG91IJQZL-wdJWDiVVsI2ygl5YybEFphME'; // test
+const token = tokenData.botToken.prod; // prod
+// const token = tokenData.botToken.test; // test
 
 const bot = new TelegramBot(token, {polling: true});
 const botManager = new BotManager(bot);
@@ -154,6 +155,8 @@ bot.on('message', (msg) => {
         } else {
           botManager.responceOfferId(msg, 0);
         }
+      } else if (userManager.getStep(msg.from.id) == 103) {
+        botManager.responceNewTerms(msg);
       } else {
         bot.sendMessage(msg.chat.id, statics.content.errorNotActive, {parse_mode: 'Markdown'})
       }
@@ -192,5 +195,7 @@ bot.on('callback_query', (query) => {
     botManager.responseChange(query.data, query.message.chat.id, query.from.id)
   } else if (userManager.getStep(query.from.id) == "101" && (query.data == "MarMarOT")) {
     botManager.responceOperation(query)
+  } else if (userManager.getStep(query.from.id) == "110" && (query.data == "101" || query.data == "102" || query.data == "103" || query.data == "111")) {
+    botManager.responseOperationChange(query.data, query.message.chat.id, query.from.id)
   }
 });

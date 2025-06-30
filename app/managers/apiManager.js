@@ -245,6 +245,24 @@ class ApiManager {
       }
       return false
     }
+
+    this.getPeerclickOperation = async function(operation, offerId, body) {
+      if (operation == "MarMarOT") {
+        let data = { 
+          offerId: offerId,
+          offerBody: body
+        }
+        let editLink = await axios.post(staticData.APIUrl+PORT+'/ApiManager/edit-marmar-offer-terms',data).catch(err=>{
+          console.log(err)
+          return false
+        })
+        if (!editLink.data.ok) {
+          return false
+        } else {
+          return true
+        }
+      }
+    }
   }
 }
 

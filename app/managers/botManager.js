@@ -1,6 +1,7 @@
 const apiManager = require('./apiManager')
 const userManager = require('./userManager')
 const statics = require('../staticData.json')
+const { raw } = require('express')
 
 class BotManager{
   constructor(bot) {
@@ -579,7 +580,7 @@ class BotManager{
         let terms = userManager.getTerms(id).split(',');
         let termsText = '';
         for (let i = 0; i < terms.length; i++) {
-          termsText += `\n  ${i + 1}. ${terms[i]}`
+          termsText += `\n  ${i + 1}) ${terms[i]}`
         }
         this.bot.sendMessage(chat, `8${statics.content.getChangesDomain}\n\n<b>Network</b> - ${userManager.getNetwork(id)}\n<b>Offer Name</b> - ${userManager.getOfferName(id)}\n<b>Language</b> - ${userManager.getGeo(id).split('_')[0]}\n<b>Geo</b> - ${userManager.getGeo(id).split('_')[1]}\n<b>Traffic Source</b> - ${userManager.getTrafficSource(id)}\n<b>Headline</b> - ${userManager.getHeadline(id)}\n<b>asid</b>: ${userManager.getAsid(id)}\n<b>Terms</b>: ${termsText}`, {parse_mode: 'HTML'})
         setTimeout(() => {
@@ -624,7 +625,7 @@ class BotManager{
         this.bot.sendMessage(chat, statics.content.errorCreationWrong);
       } else {
         await this.bot.sendMessage(chat, `<b>Here's your link</b>`, {parse_mode: 'HTML'});
-        await this.bot.sendMessage(chat, stext.peerclickLink);
+        await this.bot.sendMessage(chat, stext.peerclickLink, {disable_web_page_preview: true});
       }
       // this.bot.sendMessage(chat, stext)
     }, 200);
@@ -641,23 +642,117 @@ class BotManager{
   async responceOfferId(msg, rework) {
     if (parseInt(msg.text)) {
       userManager.setOfferId(msg.chat.id, msg.text);
-      if (rework) {
-        this.responseChange("10", msg.chat.id, msg.from.id);
-      } else {
-        if (await apiManager.getPeerclickOffer(msg.from.id, msg.text)) {
-          if (userManager.getOfferBody(msg.from.id).affiliateNetwork.id == 12) {
-            userManager.setStep(msg.from.id, 103);
-            this.bot.sendMessage(msg.chat.id, `<b>PeerClick Offer</b> Found\n\n`, {parse_mode: 'Markdown'})
+      if (await apiManager.getPeerclickOffer(msg.from.id, msg.text)) {
+        let offerBody = userManager.getOfferBody(msg.from.id);
+        if (offerBody.affiliateNetwork.id == 12) {
+          if (rework) {
+            this.responseOperationChange("110", msg.chat.id, msg.from.id);
           } else {
-            this.bot.sendMessage(msg.chat.id, statics.editContent.errorOfferIdNotMarMar, {parse_mode: 'Markdown'})
+            let rawTerms = offerBody.url.split('&terms=')[1];
+            let terms = '';
+            while (rawTerms.includes('+')) {
+              rawTerms = rawTerms.replace('+', ' ');
+            }
+            rawTerms = rawTerms.split(',');
+            rawTerms.forEach((term, index) => {
+              terms += `\n  ${index+1}) ${term}`;
+            })
+            userManager.setStep(msg.from.id, 103);
+            this.bot.sendMessage(msg.chat.id, `<b>PeerClick Offer</b> Found\n\n<b>ID: </b> ${offerBody.id}\n<b>Name: </b> ${offerBody.namePostfix}\n<b>Geo: </b> ${offerBody.country.code}\n<b>URL: </b> ${offerBody.url}\n<b>Terms: </b> ${terms}\n`, {parse_mode: 'HTML'})
+            setTimeout(() => {
+              this.bot.sendMessage(msg.chat.id, statics.editContent.getTerms, {parse_mode: 'HTML'})
+            }, 200);
           }
         } else {
-          this.bot.sendMessage(msg.chat.id, statics.editContent.errorOfferIdNotFound, {parse_mode: 'Markdown'})
+          this.bot.sendMessage(msg.chat.id, statics.editContent.errorOfferIdNotMarMar, {parse_mode: 'Markdown'})
         }
+      } else {
+        this.bot.sendMessage(msg.chat.id, statics.editContent.errorOfferIdNotFound, {parse_mode: 'Markdown'})
       }
     } else {
       this.bot.sendMessage(msg.chat.id, statics.editContent.errorOfferIdNotNumber, {parse_mode: 'Markdown'})
     }
+  }
+  responceNewTerms(msg) {
+    userManager.setTerms(msg.chat.id, msg.text);
+    this.responseOperationChange("110", msg.chat.id, msg.from.id);
+  }
+  responseOperationChange(change, chat, id) {
+    userManager.setOnRework(id, 1);
+    if (change == "101") {
+      userManager.setOnRework(id, 0);
+      userManager.setOfferLink(id, 'clear');
+      userManager.setOffersCPC(id, 'clear');
+      userManager.setOffersDataDSP(id, 'clear');
+      userManager.setStep(id, 101);
+      this.bot.sendMessage(chat, statics.editContent.getOperation, statics.editKeyboard.operation)
+    } else if (change == "102") {
+      userManager.setStep(id, 102);
+      if (userManager.getOperation(id) == "MarMarOT") {
+        this.bot.sendMessage(chat, statics.editContent.getOfferID, {parse_mode: 'Markdown'})
+      }
+    } else if (change == "103") {
+      userManager.setStep(id, 103);
+      this.bot.sendMessage(chat, statics.editContent.getTerms, {parse_mode: 'HTML'})
+    } else if (change == "110") {
+      userManager.setStep(id, 110);
+      let offerBody = userManager.getOfferBody(id);
+      let rawTerms = offerBody.url.split('&terms=')[1];
+      let terms = '';
+      let rawNewTerms = userManager.getTerms(id);
+      let newTerms = '';
+      while (rawTerms.includes('+')) {
+        rawTerms = rawTerms.replace('+', ' ');
+      }
+      rawTerms = rawTerms.split(',');
+      rawTerms.forEach((term, index) => {
+        terms += `\n  ${index+1}) ${term}`;
+      })
+      while (rawNewTerms.includes('+')) {
+        rawNewTerms = rawNewTerms.replace('+', ' ');
+      }
+      rawNewTerms = rawNewTerms.split(',');
+      rawNewTerms.forEach((newTterm, index) => {
+        newTerms += `\n  ${index+1}) ${newTterm}`;
+      })
+      this.bot.sendMessage(chat, `4${statics.content.getChangesDomain}\n\n<b>Offer ID: </b> ${offerBody.id}\n<b>Offer Name: </b> ${offerBody.namePostfix}\n<b>Offer Geo: </b> ${offerBody.country.code}\n<b>Old Offer Terms: </b> ${terms}\n<b>New Offer Terms: </b> ${newTerms}\n`, {parse_mode: 'HTML'})
+      setTimeout(() => {
+        this.bot.sendMessage(chat, statics.content.chooseChanges, statics.editKeyboard.changeMarMarOT)
+      }, 200);
+    } else if (change == "111") {
+      this.inputOperationDone(id, chat);
+    }
+  }
+  async inputOperationDone(id, chat){
+    userManager.setStep(id, 0);
+    this.bot.sendMessage(chat, statics.content.responceInputDone, {parse_mode: 'Markdown'});
+    setTimeout(async () => {
+      if (userManager.getOperation(id) == "MarMarOT") {
+        let offerBody = userManager.getOfferBody(id);
+        let terms = userManager.getTerms(id);
+        while (terms.includes(' ')) {
+          terms = terms.replace(' ', '+');
+        }
+        let url = offerBody.url.split('&terms=')[0]+'&terms='+terms;
+        let body = {
+          name: offerBody.namePostfix,
+          url: url,
+          country: { code: offerBody.country.code },
+          affiliateNetwork: { id: 12 },
+          payout: offerBody.payout
+        }
+        let request = await apiManager.getPeerclickOperation(
+          userManager.getOperation(id),
+          userManager.getOfferId(id),
+          body
+        );
+        if (!request) {
+          this.bot.sendMessage(chat, statics.content.errorCreationWrong);
+        } else {
+          await this.bot.sendMessage(chat, `<b>Offer ${userManager.getOfferId(id)} Terms has been updated</b>`, {parse_mode: 'HTML'});
+        }
+      }
+    }, 200);
   }
 }
 

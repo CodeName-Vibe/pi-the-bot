@@ -273,4 +273,34 @@ router.post('/ApiManager/get-peerclick-offer',async(req, res)=>{
 //    offer: {}
 // }
 
+router.post('/ApiManager/edit-marmar-offer-terms',async(req, res)=>{
+  const responce = await dbManager.setPeerclickMarmarOfferTerms(req.body.offerId, req.body.offerBody)
+  if(responce){
+    console.log('MarMar offer terms edited');
+    res.status(200).send({
+      ok:true
+    })
+  }else{
+    res.status(200).send({
+      ok:false
+    })
+  }
+})
+// /edit-marmar-offer-terms
+// req: 
+// { 
+//    offerId:number
+//    offerBody:{
+//      name:str,
+//      url:str,
+//      country:{code:str},
+//      affiliateNetwork:{id:number},
+//      payout:{type:str,value:null,currency:str}
+//    }
+// } 
+// res: 
+// {
+//    ok: boolean
+// }
+
 module.exports = router

@@ -1,21 +1,12 @@
 const axios = require("axios");
 const staticData = require('../staticData.json')
+const tokenData = require('../tokenData.json')
 
 class dbManager {
-  peerclickCredenrials = {
-    email: "evgenii.teliatnykov@mirs.com",
-    password: "L;7D+NXE%uHp#c6A"
-  };
-
-  afdCredentials = {
-    key: '7af142ce33dc0306d155800050e4ef8ebdff2fdbcfab0ac51e05b013a8da5ac8',
-    secret: '2d6bb6233349ba251d4c7cc2cbcf73b2ef1d6c10c50293abe8d1e701719fc30f'
-  };
-
-  rsocCredentials = {
-    key: '8febc03b07a7ea3e274be1e6a05847aafbce75ebb1669a44eb268dbbb5e04ac4',
-    secret: 'e566bb2e9da2020322fbf3560615466d6f7d41df03c45c3550d44cb2e6739b9e'
-  };
+  peerclickCredenrials = tokenData.apiCredentials.peerclick;
+  afdCredentials = tokenData.apiCredentials.tonikAfd;
+  rsocCredentialsMR = tokenData.apiCredentials.tonikRsocMR;
+  rsocCredentialsTO = tokenData.apiCredentials.tonikRsocTO;
 
   constructor() {
     console.log('db manager conected')
@@ -51,8 +42,8 @@ class dbManager {
   async getTonicRSOCInfo(tonicId){
     try {
       const authResponse = await axios.post('https://api.publisher.tonic.com/jwt/authenticate', {
-        consumer_key: this.rsocCredentials.key,
-        consumer_secret: this.rsocCredentials.secret
+        consumer_key: this.rsocCredentialsMR.key,
+        consumer_secret: this.rsocCredentialsMR.secret
       }, { headers: { 'Content-Type': 'application/json' } });
 
       const tonicInfoResponse = await axios.get(`https://api.publisher.tonic.com/privileged/v3/campaign/list?state=active&output=json`, {
@@ -303,8 +294,8 @@ class dbManager {
       return false
     }
     const authResponse = await axios.post('https://api.publisher.tonic.com/jwt/authenticate', {
-      consumer_key: this.rsocCredentials.key,
-      consumer_secret: this.rsocCredentials.secret
+      consumer_key: this.rsocCredentialsMR.key,
+      consumer_secret: this.rsocCredentialsMR.secret
     }, { headers: { 'Content-Type': 'application/json' } });
     for (let offer of data.offersCPC) {
       let call = {
@@ -318,7 +309,6 @@ class dbManager {
           'Content-Type': 'application/json'
         }
       });
-      console.log(tonicInfoResponse)
     }
     return campSuc.campaign.url
   }
@@ -581,8 +571,8 @@ class dbManager {
       return false
     }
     const authResponse = await axios.post('https://api.publisher.tonic.com/jwt/authenticate', {
-      consumer_key: this.rsocCredentials.key,
-      consumer_secret: this.rsocCredentials.secret
+      consumer_key: this.rsocCredentialsMR.key,
+      consumer_secret: this.rsocCredentialsMR.secret
     }, { headers: { 'Content-Type': 'application/json' } });
     for (let offer of data.offersDSP) {
       let call = {
@@ -596,7 +586,6 @@ class dbManager {
           'Content-Type': 'application/json'
         }
       });
-      console.log(tonicInfoResponse)
     }
     return campSuc.campaign.url
   }
@@ -1215,6 +1204,29 @@ class dbManager {
     })
     if (offer) {
       return offer;
+    } else {
+      return false
+    }
+  }
+
+  async setPeerclickMarmarOfferTerms(offerId, offerBody) {
+    let token = 'a';
+    await axios.post('https://api.peerclick.com/v1_1/auth/session',this.peerclickCredenrials).then(a=>{
+      token = a.data.token
+    }).catch(err=>{
+      console.log(err.message)
+      return false
+    })
+    let headers = {'api-token': token};
+    let responceStatus = 0;
+    await axios.put('https://api.peerclick.com/v1_1/offer/'+offerId,offerBody,{headers}).then(a=>{
+      responceStatus = a.data.status
+    }).catch(err=>{
+      console.log(err.message)
+      return false
+    })
+    if (responceStatus == 200) {
+      return true;
     } else {
       return false
     }
