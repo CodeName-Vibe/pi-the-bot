@@ -2,7 +2,7 @@ const staticData = require('../staticData.json')
 const userManager = require('./userManager')
 const axios = require('axios')
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3010;
 
 class ApiManager {
   constructor() {
