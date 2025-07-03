@@ -62,19 +62,36 @@ class BotManager{
     } else if (userManager.getNetwork(msg.from.id) == "Tonik1") {
       if (parseInt(msg.text) && (msg.text.length == 6 || msg.text.length == 7)) {
         if (userManager.getBranch(msg.from.id) == "CPC") {
-          if (await apiManager.getTonikRSOCInfo(msg.from.id, msg.text)) {
-            let offersListText = '';
-            userManager.getOffersCPC(msg.from.id).forEach(offer => {
-              offersListText += `\n<b>Offer Name:</b> ${offer.offerName}\n<b>Geo:</b> ${offer.geo}\n<b>Tonik Link:</b> ${offer.trackingLink}\n`
-            });
-            if (offersListText) {
-              this.bot.sendMessage(msg.chat.id, offersListText, {parse_mode: "HTML", disable_web_page_preview: true})
+          if (userManager.getTrafficSource(msg.from.id) == "Mgid") {
+            if (await apiManager.getTonikRSOC1Info(msg.from.id, msg.text)) {
+              let offersListText = '';
+              userManager.getOffersCPC(msg.from.id).forEach(offer => {
+                offersListText += `\n<b>Offer Name:</b> ${offer.offerName}\n<b>Geo:</b> ${offer.geo}\n<b>Tonik Link:</b> ${offer.trackingLink}\n`
+              });
+              if (offersListText) {
+                this.bot.sendMessage(msg.chat.id, offersListText, {parse_mode: "HTML", disable_web_page_preview: true})
+              }
+              setTimeout(() => {
+                this.bot.sendMessage(msg.chat.id, '6.2'+statics.content.getTonikIDRsocAgain, {parse_mode: 'Markdown'})
+              }, 200);
+            } else {
+              this.bot.sendMessage(msg.chat.id, statics.content.errorIDNotFound, {parse_mode: 'Markdown'})
             }
-            setTimeout(() => {
-              this.bot.sendMessage(msg.chat.id, '6.2'+statics.content.getTonikIDRsocAgain, {parse_mode: 'Markdown'})
-            }, 200);
-          } else {
-            this.bot.sendMessage(msg.chat.id, statics.content.errorIDNotFound, {parse_mode: 'Markdown'})
+          } else if (userManager.getTrafficSource(msg.from.id) == "Taboola") {
+            if (await apiManager.getTonikRSOC2Info(msg.from.id, msg.text)) {
+              let offersListText = '';
+              userManager.getOffersCPC(msg.from.id).forEach(offer => {
+                offersListText += `\n<b>Offer Name:</b> ${offer.offerName}\n<b>Geo:</b> ${offer.geo}\n<b>Tonik Link:</b> ${offer.trackingLink}\n`
+              });
+              if (offersListText) {
+                this.bot.sendMessage(msg.chat.id, offersListText, {parse_mode: "HTML", disable_web_page_preview: true})
+              }
+              setTimeout(() => {
+                this.bot.sendMessage(msg.chat.id, '6.2'+statics.content.getTonikIDRsocAgain, {parse_mode: 'Markdown'})
+              }, 200);
+            } else {
+              this.bot.sendMessage(msg.chat.id, statics.content.errorIDNotFound, {parse_mode: 'Markdown'})
+            }           
           }
         } else if (userManager.getBranch(msg.from.id) == "DSP") {
           if (userManager.getOfferDSP(msg.from.id, msg.text)) {
@@ -86,7 +103,7 @@ class BotManager{
                 this.bot.sendMessage(msg.chat.id, statics.content.getCampaignTextRSOCChange, {parse_mode: 'HTML'})
               }, 200);
           } else {
-            if (await apiManager.getTonikRSOCInfo(msg.from.id, msg.text)) {
+            if (await apiManager.getTonikRSOC1Info(msg.from.id, msg.text)) {
               userManager.setStep(msg.from.id, 6);
               userManager.setCurrentOfferID(msg.from.id, msg.text)
               let offerDSP = userManager.getOfferDSP(msg.from.id, msg.text)
@@ -256,7 +273,7 @@ class BotManager{
     } else if (userManager.getNetwork(selection.from.id) == "Tonik0") {
       this.responseChange("10", selection.message.chat.id, selection.from.id);
     } else if (userManager.getNetwork(selection.from.id) == "Tonik1") {
-      if (rework) {
+      if (rework && userManager.getBranch(selection.from.id) == "DSP") {
         this.responseChange("10", selection.message.chat.id, selection.from.id);
       } else if (userManager.getBranch(selection.from.id) == "CPC") {
         userManager.setStep(selection.from.id, 2);
@@ -445,6 +462,9 @@ class BotManager{
           this.bot.sendMessage(chat, '6'+statics.content.getTraffic, statics.keyboard.trafficDSP)
         }
       } else if (userManager.getBranch(id) == "CPC" && userManager.getNetwork(id) == "Tonik1") {
+        userManager.setOfferLink(id, 'clear');
+        userManager.setOffersCPC(id, 'clear');
+        userManager.setOffersDataDSP(id, 'clear');
         this.bot.sendMessage(chat, '5'+statics.content.getTraffic, statics.keyboard.trafficRSOC_CPC)
       } else if (userManager.getBranch(id) == "DSP" && userManager.getNetwork(id) == "Tonik1") {
         if ((userManager.getTeam(id) == 'DarkDSP') || (userManager.getTeam(id) == 'LehaDSP') || (userManager.getTeam(id) == 'YaanDSP')) {
@@ -563,13 +583,16 @@ class BotManager{
           offerLinksText += `\n${index + 1}. <u>${ol}</u>`
         })
 
+        let trafficSource = userManager.getTrafficSource(id);
         let trafficSourceText = '';
-        if (userManager.getTrafficSource(id) == "Rev0") {
+        if (trafficSource == "Rev0") {
           trafficSourceText = "Rev: @\u200Bteliatnykov"
-        } else if (userManager.getTrafficSource(id) == "Rev1") {
+        } else if (trafficSource == "Rev1") {
           trafficSourceText = "Rev: @\u200Bjonydep.lazarchuk"
-        } else if (userManager.getTrafficSource(id) == "Rev2") {
+        } else if (trafficSource == "Rev2") {
           trafficSourceText = "Rev: @\u200Bevgenii.teliatnykov"
+        } else {
+          trafficSourceText = trafficSource;
         }
 
         this.bot.sendMessage(chat, `7${statics.content.getChangesDomain}\n\n<b>Network</b> - ${userManager.getNetwork(id)}\n<b>Offer Name</b> - ${userManager.getOfferName(id)}\n<b>Geo</b> - ${userManager.getGeo(id)}\n<b>Traffic Source</b> - ${trafficSourceText}\n<b>Camp ID</b> - ${userManager.getCampId(id)}\n<b>Offer Links</b>: ${offerLinksText}`, {parse_mode: 'HTML'})

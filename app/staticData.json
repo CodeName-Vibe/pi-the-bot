@@ -66,7 +66,7 @@
     "trafficInuvo": {
       "reply_markup": {
         "inline_keyboard": [
-          [{"text": "Mgid", "callback_data": "Mgid"}],
+          [{"text": "Mgid", "callback_data": "Mgid"},{"text": "Taboola", "callback_data": "Taboola"}],
           [{"text": "Rev: @teliatnykov", "callback_data": "Rev0"}],
           [{"text": "Rev: @jonydep.lazarchuk", "callback_data": "Rev1"}],
           [{"text": "Rev: @evgenii.teliatnykov", "callback_data": "Rev2"}]
@@ -245,6 +245,7 @@
     "dsp": "&site={referer}&subid4={clickid}&network=mgid&siteid={widget_id}&subid1={token1}|{token7}",
     "inuvoMgid": "?utm_content={token8}&placement={token10}&subid1={token3}&subid2={token11}&subid3={token1}&subid4={clickid}&camp_id=",
     "inuvoRev": "?utm_content={token5}&placement={token6}&subid1={token2}&subid2={token4}&subid3={token3}&subid4={clickid}&camp_id=",
+    "inuvoTaboola": "?utm_content={token3}&placement={token1}&subid1={token5}&subid2={token2}&subid3={token6}&subid4={clickid}&camp_id=",
     "marmarNewsbreakPretail": "https://www.solveora.com/dsr?gclid={clickid}&tv=dark&de=m&pub=",
     "marmarRevcontentPretail": "https://www.solveora.com/dsr?gclid={cf_click_id}&tv=dark&de=m&pub="
   },

@@ -5,8 +5,8 @@ const tokenData = require('../tokenData.json')
 class dbManager {
   peerclickCredenrials = tokenData.apiCredentials.peerclick;
   afdCredentials = tokenData.apiCredentials.tonikAfd;
-  rsocCredentialsMR = tokenData.apiCredentials.tonikRsocMR;
-  rsocCredentialsTO = tokenData.apiCredentials.tonikRsocTO;
+  rsocCredentials1 = tokenData.apiCredentials.tonikRsoc1;
+  rsocCredentials2 = tokenData.apiCredentials.tonikRsoc2;
 
   constructor() {
     console.log('db manager conected')
@@ -39,11 +39,38 @@ class dbManager {
     }
   }
 
-  async getTonicRSOCInfo(tonicId){
+  async getTonicRSOC1Info(tonicId){
     try {
       const authResponse = await axios.post('https://api.publisher.tonic.com/jwt/authenticate', {
-        consumer_key: this.rsocCredentialsMR.key,
-        consumer_secret: this.rsocCredentialsMR.secret
+        consumer_key: this.rsocCredentials1.key,
+        consumer_secret: this.rsocCredentials1.secret
+      }, { headers: { 'Content-Type': 'application/json' } });
+
+      const tonicInfoResponse = await axios.get(`https://api.publisher.tonic.com/privileged/v3/campaign/list?state=active&output=json`, {
+        headers: {
+          'Authorization': 'Bearer ' + authResponse.data.token,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      let needed = {}
+      tonicInfoResponse.data.forEach(rk => {
+        if(rk.id==tonicId){
+          needed = rk
+        }
+      });
+      return needed;
+    } catch (error) {
+      console.error('Error:', error.message);
+      throw error;
+    }
+  }
+
+  async getTonicRSOC2Info(tonicId){
+    try {
+      const authResponse = await axios.post('https://api.publisher.tonic.com/jwt/authenticate', {
+        consumer_key: this.rsocCredentials2.key,
+        consumer_secret: this.rsocCredentials2.secret
       }, { headers: { 'Content-Type': 'application/json' } });
 
       const tonicInfoResponse = await axios.get(`https://api.publisher.tonic.com/privileged/v3/campaign/list?state=active&output=json`, {
@@ -203,14 +230,17 @@ class dbManager {
     let headers = {'api-token': token}
     let tail = 'no_tail('
     let ts = 0
+    let creds = {};
     switch (data.trafficSource) {
       case 'MGID':
         ts = 1
         tail = staticData.tails.cpcRsocMgid;
+        creds = this.rsocCredentials1;
         break;
       case 'TABOOLA':
         ts = 56
         tail = staticData.tails.cpcRsocTaboola;
+        creds = this.rsocCredentials2;
         break;
     }
     if(tail=='no_tail('){
@@ -294,8 +324,8 @@ class dbManager {
       return false
     }
     const authResponse = await axios.post('https://api.publisher.tonic.com/jwt/authenticate', {
-      consumer_key: this.rsocCredentialsMR.key,
-      consumer_secret: this.rsocCredentialsMR.secret
+      consumer_key: creds.key,
+      consumer_secret: creds.secret
     }, { headers: { 'Content-Type': 'application/json' } });
     for (let offer of data.offersCPC) {
       let call = {
@@ -571,8 +601,8 @@ class dbManager {
       return false
     }
     const authResponse = await axios.post('https://api.publisher.tonic.com/jwt/authenticate', {
-      consumer_key: this.rsocCredentialsMR.key,
-      consumer_secret: this.rsocCredentialsMR.secret
+      consumer_key: this.rsocCredentials1.key,
+      consumer_secret: this.rsocCredentials1.secret
     }, { headers: { 'Content-Type': 'application/json' } });
     for (let offer of data.offersDSP) {
       let call = {
@@ -986,6 +1016,10 @@ class dbManager {
       case 'MGID':
         ts = 1
         tail = staticData.tails.inuvoMgid;
+        break;
+      case 'TABOOLA':
+        ts = 56
+        tail = staticData.tails.inuvoTaboola;
         break;
       case 'REV0':
         ts = 68

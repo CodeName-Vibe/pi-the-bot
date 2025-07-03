@@ -29,8 +29,8 @@ router.post('/ApiManager/get-tonik-info',async(req, res)=>{
 //    geo:str
 // }
 
-router.post('/ApiManager/get-tonik-rsoc-info',async(req, res)=>{
-  const tonicInfo = await dbManager.getTonicRSOCInfo(req.body.tonikIDd)
+router.post('/ApiManager/get-tonik-rsoc1-info',async(req, res)=>{
+  const tonicInfo = await dbManager.getTonicRSOC1Info(req.body.tonikIDd)
   if(tonicInfo.link&&tonicInfo.offer&&tonicInfo.country){
     res.status(200).send({
       ok:true,
@@ -44,7 +44,34 @@ router.post('/ApiManager/get-tonik-rsoc-info',async(req, res)=>{
     })
   }
 })
-// /get-tonik-info  //API
+// /get-tonik-rsoc1-info  //API
+// req: 
+// { 
+//    tonikIDd:str
+// } 
+// res: 
+// {
+//    tokinLink:str,
+//    offerName:str,
+//    geo:str
+// }
+
+router.post('/ApiManager/get-tonik-rsoc2-info',async(req, res)=>{
+  const tonicInfo = await dbManager.getTonicRSOC2Info(req.body.tonikIDd)
+  if(tonicInfo.link&&tonicInfo.offer&&tonicInfo.country){
+    res.status(200).send({
+      ok:true,
+      tonikLink:tonicInfo.direct_link,
+      offerName:req.body.tonikIDd+" - "+tonicInfo.name,
+      geo:tonicInfo.country
+    })
+  }else{
+    res.status(200).send({
+      ok:false
+    })
+  }
+})
+// /get-tonik-rsoc2-info  //API
 // req: 
 // { 
 //    tonikIDd:str
@@ -86,7 +113,14 @@ router.post('/ApiManager/create-link',async(req, res)=>{
 router.post('/ApiManager/create-link-rsoc',async(req, res)=>{
   const peerOffer = await dbManager.createPeerclickOfferRsocCPC(req.body)
   if(peerOffer){
-    console.log('CPC RSOC Tracking link created');
+    switch (req.body.trafficSource) {
+      case 'MGID':
+        console.log('CPC RSOC1 Tracking link created');
+        break;
+      case 'TABOOLA':
+        console.log('CPC RSOC2 Tracking link created');
+        break;
+    }
     res.status(200).send({
       ok:true,
       peerclickLink: "https"+peerOffer.split('http')[1]

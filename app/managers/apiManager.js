@@ -19,12 +19,30 @@ class ApiManager {
       // return true;
     }
 
-    this.getTonikRSOCInfo = async function(id, tonikId) {
+    this.getTonikRSOC1Info = async function(id, tonikId) {
       let tonikInfo;
       if (userManager.getBranch(id) == "DSP" && userManager.getOfferDSP(id, tonikId)) {
         return true
       } else {
-        tonikInfo = await axios.post(staticData.APIUrl+PORT+'/ApiManager/get-tonik-rsoc-info',{tonikIDd:tonikId}).catch(err=>{console.log(err)})
+        tonikInfo = await axios.post(staticData.APIUrl+PORT+'/ApiManager/get-tonik-rsoc1-info',{tonikIDd:tonikId}).catch(err=>{console.log(err)})
+      }
+      if(tonikInfo.data.ok) {
+        if (userManager.getBranch(id) == "CPC") {
+          userManager.setOffersCPC(id, tonikId, tonikInfo.data.offerName, tonikInfo.data.geo, tonikInfo.data.tonikLink);
+        } else if (userManager.getBranch(id) == "DSP") {
+          userManager.setOffersDataDSP(id, tonikId, tonikInfo.data.offerName, tonikInfo.data.geo, tonikInfo.data.tonikLink);
+        }
+        return true
+      }
+      return false
+    }
+
+    this.getTonikRSOC2Info = async function(id, tonikId) {
+      let tonikInfo;
+      if (userManager.getBranch(id) == "DSP" && userManager.getOfferDSP(id, tonikId)) {
+        return true
+      } else {
+        tonikInfo = await axios.post(staticData.APIUrl+PORT+'/ApiManager/get-tonik-rsoc2-info',{tonikIDd:tonikId}).catch(err=>{console.log(err)})
       }
       if(tonikInfo.data.ok) {
         if (userManager.getBranch(id) == "CPC") {
@@ -180,6 +198,8 @@ class ApiManager {
         let ts = ''
         if (trafficSource == "Mgid") {
           ts = 'MGID'
+        } else if (trafficSource == "Taboola") {
+          ts = 'TABOOLA'
         } else if (trafficSource == "Rev0") {
           ts = 'REV0'
         } else if (trafficSource == "Rev1") {
