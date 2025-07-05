@@ -13,7 +13,7 @@ app.use([routes]);
 
 const PORT = process.env.PORT || 3010;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT} | 07.03.25 Inuvo Taboola & RSOC2`);
+  console.log(`Server is running on port ${PORT} | 07.05.25 Inuvo Offer Link fix`);
 });
 
 const token = tokenData.botToken.prod; // prod

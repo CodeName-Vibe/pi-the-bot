@@ -353,15 +353,20 @@ class BotManager{
     }
   }
   responceOfferLink(msg) {
-    if (msg.text.includes('https:​//bertio​.com/article/')) {
-      userManager.setOfferLink(msg.chat.id, msg.text)
+    let link = msg.text;
+    if (msg.text.includes('/finish')) {
+      this.responseChange("10", msg.chat.id, msg.from.id);
+    }
+    else if (link.includes('bertio.com/article')) {
+      if (!link.includes('https://')) {
+        link = 'https://' + link;
+      }
+      userManager.setOfferLink(msg.chat.id, link)
       let addedOfferLinks = '';
       userManager.getOfferLink(msg.chat.id).forEach((ol, index) => {
         addedOfferLinks += `\n${index + 1}. <u>${ol}</u>`
       });
       this.bot.sendMessage(msg.chat.id, statics.content.getOfferLinkAgain + addedOfferLinks, {parse_mode: 'HTML'})
-    } else if (msg.text.includes('/finish')) {
-      this.responseChange("10", msg.chat.id, msg.from.id);
     } else {
       this.bot.sendMessage(msg.chat.id, statics.content.errorWrongOfferLink, {parse_mode: 'Markdown'})
     }
