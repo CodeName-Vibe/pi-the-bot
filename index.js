@@ -13,7 +13,7 @@ app.use([routes]);
 
 const PORT = process.env.PORT || 3010;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT} | 07.27.25 New Tonik AFD MGID tail`);
+  console.log(`Server is running on port ${PORT} | 07.30.25 Fixed new Tonik AFD MGID tail`);
 });
 
 const token = tokenData.botToken.prod; // prod
