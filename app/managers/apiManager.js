@@ -200,6 +200,8 @@ class ApiManager {
           ts = 'MGID'
         } else if (trafficSource == "Taboola") {
           ts = 'TABOOLA'
+        } else if (trafficSource == "NewsBreak") {
+          ts = 'NEWSBREAK'
         } else if (trafficSource == "Rev0") {
           ts = 'REV0'
         } else if (trafficSource == "Rev1") {

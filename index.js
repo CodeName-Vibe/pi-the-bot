@@ -13,7 +13,7 @@ app.use([routes]);
 
 const PORT = process.env.PORT || 3010;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT} | 07.30.25 Fixed new Tonik AFD MGID tail`);
+  console.log(`Server is running on port ${PORT} | 07.30.25 Inuvo NewsBreak`);
 });
 
 const token = tokenData.botToken.prod; // prod
@@ -187,7 +187,7 @@ bot.on('callback_query', (query) => {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
   } else if (userManager.getNetwork(query.from.id) == "Domain" && userManager.getStep(query.from.id) == "8" && (query.data == "Outbrain" || query.data == "Taboola")) {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
-  } else if (userManager.getNetwork(query.from.id) == "Inuvo" && userManager.getStep(query.from.id) == "8" && (query.data == "Mgid" || query.data == "Taboola" || query.data == "Rev0" || query.data == "Rev1" || query.data == "Rev2")) {
+  } else if (userManager.getNetwork(query.from.id) == "Inuvo" && userManager.getStep(query.from.id) == "8" && (query.data == "Mgid" || query.data == "Taboola" || query.data == "NewsBreak" || query.data == "Rev0" || query.data == "Rev1" || query.data == "Rev2")) {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))
   } else if (userManager.getNetwork(query.from.id) == "MarMar" && userManager.getStep(query.from.id) == "8" && (query.data == "NewsBreak" || query.data == "RevContent")) {
     botManager.responseTrafficSource(query, userManager.getOnRework(query.from.id))

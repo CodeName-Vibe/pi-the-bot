@@ -1021,6 +1021,10 @@ class dbManager {
         ts = 56
         tail = staticData.tails.inuvoTaboola;
         break;
+      case 'NEWSBREAK':
+        ts = 69
+        tail = staticData.tails.inuvoNewsbreak;
+        break;
       case 'REV0':
         ts = 68
         tail = staticData.tails.inuvoRev;
